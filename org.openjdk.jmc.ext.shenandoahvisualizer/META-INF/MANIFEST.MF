@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ShenanandoahVisualizer
+Bundle-SymbolicName: org.openjdk.jmc.ext.shenandoahvisualizer;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: org.openjdk.jmc.ext.shenandoahvisualizer
+Bundle-Vendor: Red Hat

@@ -1,0 +1,28 @@
+Build:
+ $ mvn clean install
+
+...or pick up binary build here:
+ https://builds.shipilev.net/shenandoah-visualizer/
+
+Run:
+ 1. Start Shenandoah with these additional flags:
+     -XX:+UsePerfData -XX:+UnlockExperimentalVMOptions -XX:+ShenandoahRegionSampling
+
+ 2. Figure out the process PID
+
+ 3. Open the project in eclipse
+
+ 4. Attach Visualizer:
+    add -Xbootclasspath/p:<path-to-tools.jar> as a VM argument to run configurations in Eclipse 
+
+    tools.jar is usually at $JAVA_HOME/lib
+
+ 5.  Add local://<pid> to the program arguments in run configurations
+
+ 6. Ensure you have the SWT library available and add it to the build path 
+
+ 7. Run it
+
+
+
+ 
