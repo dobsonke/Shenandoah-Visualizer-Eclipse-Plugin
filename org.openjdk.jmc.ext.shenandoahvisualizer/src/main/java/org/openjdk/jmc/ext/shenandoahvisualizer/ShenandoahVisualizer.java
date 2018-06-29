@@ -20,7 +20,7 @@
  * questions.
  *
  */
-package org.openjdk.shenandoah;
+package org.openjdk.jmc.ext.shenandoahvisualizer;
 
 import org.eclipse.swt.*;
 import org.eclipse.swt.events.PaintListener;
@@ -32,8 +32,8 @@ import org.eclipse.swt.widgets.*;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Event;
 import java.util.*;
-import org.openjdk.shenandoah.Colors.*;
-import static org.openjdk.shenandoah.RegionState.*;
+import org.openjdk.jmc.ext.shenandoahvisualizer.Colors.*;
+import static org.openjdk.jmc.ext.shenandoahvisualizer.RegionState.*;
 
 class ShenandoahVisualizer {
 
@@ -45,7 +45,6 @@ class ShenandoahVisualizer {
             System.err.println("missing VM identifier");
             System.exit(-1);
         }
-        System.out.println("DEBUG: " + args[0]);
         Display display = new Display();
         Shell shell = new Shell(display);
         shell.setText("Shenandoah Visualizer");
@@ -61,8 +60,8 @@ class ShenandoahVisualizer {
         outerGroup.setLayoutData(groupData);
         outerGroup.setBounds(shell.getClientArea());
     	Colors.device = display;
-    	System.out.println("DEBUG: " + args[0]);
-        DataProvider data = new DataProvider(args[0]);
+
+    	DataProvider data = new DataProvider("local://2654");
 
         Render render = new Render(data, outerGroup, display);
 

@@ -6,7 +6,6 @@
           allowMultiple="false"
           category="org.openjdk.jmc.ui.main"
           class="org.openjdk.jmc.ext.shenandoahvisualizer.ShenandoahVisualizer"
-          icon="legend.png"
           id="org.openjdk.jmc.ext.shenandoahvisualizer.ShenandoahVisualizer"
           name="Shenandoah Visualizer"
           restorable="true">
