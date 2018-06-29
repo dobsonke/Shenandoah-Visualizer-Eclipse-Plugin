@@ -1,4 +1,4 @@
-package org.openjdk.shenandoah;
+package org.openjdk.jmc.ext.shenandoahvisualizer;
 
 public class SnapshotView {
 

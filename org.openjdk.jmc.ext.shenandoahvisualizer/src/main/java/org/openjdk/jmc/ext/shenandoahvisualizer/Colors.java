@@ -1,4 +1,4 @@
-package org.openjdk.shenandoah;
+package org.openjdk.jmc.ext.shenandoahvisualizer;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.graphics.Color;

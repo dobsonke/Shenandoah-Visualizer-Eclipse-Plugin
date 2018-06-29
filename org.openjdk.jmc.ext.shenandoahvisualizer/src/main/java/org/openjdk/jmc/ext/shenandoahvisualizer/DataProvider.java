@@ -1,4 +1,4 @@
-package org.openjdk.shenandoah;
+package org.openjdk.jmc.ext.shenandoahvisualizer;
 
 import sun.jvmstat.monitor.*;
 

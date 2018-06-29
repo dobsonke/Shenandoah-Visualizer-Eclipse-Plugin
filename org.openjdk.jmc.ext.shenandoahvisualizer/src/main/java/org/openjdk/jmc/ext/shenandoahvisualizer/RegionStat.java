@@ -1,4 +1,4 @@
-package org.openjdk.shenandoah;
+package org.openjdk.jmc.ext.shenandoahvisualizer;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
@@ -6,7 +6,7 @@ import org.eclipse.swt.graphics.GC;
 import java.util.BitSet;
 import java.util.EnumSet;
 
-import static org.openjdk.shenandoah.Colors.*;
+import static org.openjdk.jmc.ext.shenandoahvisualizer.Colors.*;
 
 public class RegionStat {
 
