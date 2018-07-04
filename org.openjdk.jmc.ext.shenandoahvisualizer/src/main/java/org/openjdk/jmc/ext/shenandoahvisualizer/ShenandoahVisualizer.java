@@ -40,83 +40,6 @@ public class ShenandoahVisualizer extends ViewPart {
 	private static final int INITIAL_WIDTH = 1000;
 	private static final int INITIAL_HEIGHT = 800;
 
-//	public static void init() throws Exception {
-//        Display display = new Display();
-//        Shell shell = new Shell(display);
-//        shell.setText("Shenandoah Visualizer");
-//        shell.setLayout(new GridLayout(1, false));
-//        shell.setSize(INITIAL_WIDTH, INITIAL_HEIGHT);
-//
-//    	DataProvider data = new DataProvider("local://2654");
-//
-//        Render render = new Render(data, outerGroup, display);
-
-//        Canvas graphPanel = new Canvas(outerGroup, SWT.NONE);
-//        GridData graphData = new GridData(GridData.FILL ,GridData.BEGINNING, true, false);
-//        graphData.horizontalSpan = 2;
-//        graphData.heightHint = 200;
-//        graphPanel.setLayoutData(graphData);
-//        graphPanel.addPaintListener(new PaintListener() {
-//            public void paintControl(PaintEvent e) {
-//                render.renderGraph(e.gc);
-//            }
-//        });
-//        
-//        Canvas statusPanel = new Canvas(outerGroup, SWT.NONE);
-//        GridData statusData = new GridData(GridData.FILL,GridData.FILL, false, false);
-//
-//        statusPanel.setLayoutData(statusData);
-//        statusPanel.addPaintListener(new PaintListener() {
-//            public void paintControl(PaintEvent e) {
-//                render.renderStats(e.gc);
-//            }
-//        });
-//        Canvas regionsPanel = new Canvas(outerGroup, SWT.NONE);
-//        GridData regionsData = new GridData(GridData.FILL,GridData.FILL, true, true);
-//        regionsData.horizontalSpan = 2;
-//        regionsData.verticalSpan = 2;
-//        regionsPanel.setLayoutData(regionsData);
-//        regionsPanel.addPaintListener(new PaintListener() {
-//            public void paintControl(PaintEvent e) {
-//                render.renderRegions(e.gc);
-//            }
-//        });
-//        
-//        
-//        Canvas legendPanel = new Canvas(outerGroup, SWT.NONE); 
-//        GridData legendData = new GridData(GridData.FILL ,GridData.FILL, true, true);
-//        legendData.verticalSpan = 2;	
-//        legendPanel.setLayoutData(legendData);
-//        legendPanel.addPaintListener(new PaintListener() {
-//            public void paintControl(PaintEvent e) {
-//             	render.renderLegend(e.gc);
-//            }
-//        });
-        
-//        graphPanel.addListener (SWT.Resize,  new Listener () {
-//            public void handleEvent (Event ev) {
-//                render.notifyGraphResized(graphPanel.getBounds().width, graphPanel.getBounds().height);
-//
-//            }1
-//          });
-//        
-//        regionsPanel.addListener (SWT.Resize,  new Listener () {
-//            public void handleEvent (Event ev) {
-//            	render.notifyRegionResized(regionsPanel.getBounds().width, regionsPanel.getBounds().height);
-//            }
-//          });
-//        
-//        display.timerExec (100, render);
-//       
-//        shell.open();
-//    	while (!shell.isDisposed()) {
-//			if (!display.readAndDispatch())
-//				display.sleep();
-//		}
-//    	display.dispose();
-//    }
-
-
 	public static class Render implements Runnable {
 		public static final int LINE = 20;
 
@@ -343,7 +266,6 @@ public class ShenandoahVisualizer extends ViewPart {
 			data = new DataProvider(input);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
 		}
 
     	Render render = new Render(data, outerGroup);
