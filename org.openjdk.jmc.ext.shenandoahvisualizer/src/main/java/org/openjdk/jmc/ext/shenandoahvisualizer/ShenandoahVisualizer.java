@@ -22,6 +22,7 @@
  */
 package org.openjdk.jmc.ext.shenandoahvisualizer;
 
+import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.swt.*;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.PaintEvent;
@@ -29,106 +30,91 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
-import org.eclipse.swt.widgets.Canvas;
-import org.eclipse.swt.widgets.Event;
+import org.eclipse.ui.part.ViewPart;
 import java.util.*;
 import org.openjdk.jmc.ext.shenandoahvisualizer.Colors.*;
 import static org.openjdk.jmc.ext.shenandoahvisualizer.RegionState.*;
 
-class ShenandoahVisualizer {
-
+public class ShenandoahVisualizer extends ViewPart {
+	private static DataProvider data;
 	private static final int INITIAL_WIDTH = 1000;
 	private static final int INITIAL_HEIGHT = 800;
 
-	public static void main(String[] args) throws Exception {
-        if (args.length < 1) {
-            System.err.println("missing VM identifier");
-            System.exit(-1);
-        }
-        Display display = new Display();
-        Shell shell = new Shell(display);
-        shell.setText("Shenandoah Visualizer");
-        shell.setLayout(new GridLayout(1, false));
-        shell.setSize(INITIAL_WIDTH, INITIAL_HEIGHT);
-        
-        Group outerGroup = new Group(shell, SWT.NONE);
-        GridLayout grid = new GridLayout();
-        grid.numColumns = 3;	
-        grid.makeColumnsEqualWidth = true;
-        GridData groupData = new GridData(SWT.FILL, SWT.FILL, true, true);
-        outerGroup.setLayout(grid);
-        outerGroup.setLayoutData(groupData);
-        outerGroup.setBounds(shell.getClientArea());
-    	Colors.device = display;
+//	public static void init() throws Exception {
+//        Display display = new Display();
+//        Shell shell = new Shell(display);
+//        shell.setText("Shenandoah Visualizer");
+//        shell.setLayout(new GridLayout(1, false));
+//        shell.setSize(INITIAL_WIDTH, INITIAL_HEIGHT);
+//
+//    	DataProvider data = new DataProvider("local://2654");
+//
+//        Render render = new Render(data, outerGroup, display);
 
-    	DataProvider data = new DataProvider("local://2654");
-
-        Render render = new Render(data, outerGroup, display);
-
-        Canvas graphPanel = new Canvas(outerGroup, SWT.NONE);
-        GridData graphData = new GridData(GridData.FILL ,GridData.BEGINNING, true, false);
-        graphData.horizontalSpan = 2;
-        graphData.heightHint = 200;
-        graphPanel.setLayoutData(graphData);
-        graphPanel.addPaintListener(new PaintListener() {
-            public void paintControl(PaintEvent e) {
-                render.renderGraph(e.gc);
-            }
-        });
+//        Canvas graphPanel = new Canvas(outerGroup, SWT.NONE);
+//        GridData graphData = new GridData(GridData.FILL ,GridData.BEGINNING, true, false);
+//        graphData.horizontalSpan = 2;
+//        graphData.heightHint = 200;
+//        graphPanel.setLayoutData(graphData);
+//        graphPanel.addPaintListener(new PaintListener() {
+//            public void paintControl(PaintEvent e) {
+//                render.renderGraph(e.gc);
+//            }
+//        });
+//        
+//        Canvas statusPanel = new Canvas(outerGroup, SWT.NONE);
+//        GridData statusData = new GridData(GridData.FILL,GridData.FILL, false, false);
+//
+//        statusPanel.setLayoutData(statusData);
+//        statusPanel.addPaintListener(new PaintListener() {
+//            public void paintControl(PaintEvent e) {
+//                render.renderStats(e.gc);
+//            }
+//        });
+//        Canvas regionsPanel = new Canvas(outerGroup, SWT.NONE);
+//        GridData regionsData = new GridData(GridData.FILL,GridData.FILL, true, true);
+//        regionsData.horizontalSpan = 2;
+//        regionsData.verticalSpan = 2;
+//        regionsPanel.setLayoutData(regionsData);
+//        regionsPanel.addPaintListener(new PaintListener() {
+//            public void paintControl(PaintEvent e) {
+//                render.renderRegions(e.gc);
+//            }
+//        });
+//        
+//        
+//        Canvas legendPanel = new Canvas(outerGroup, SWT.NONE); 
+//        GridData legendData = new GridData(GridData.FILL ,GridData.FILL, true, true);
+//        legendData.verticalSpan = 2;	
+//        legendPanel.setLayoutData(legendData);
+//        legendPanel.addPaintListener(new PaintListener() {
+//            public void paintControl(PaintEvent e) {
+//             	render.renderLegend(e.gc);
+//            }
+//        });
         
-        Canvas statusPanel = new Canvas(outerGroup, SWT.NONE);
-        GridData statusData = new GridData(GridData.FILL,GridData.FILL, false, false);
-
-        statusPanel.setLayoutData(statusData);
-        statusPanel.addPaintListener(new PaintListener() {
-            public void paintControl(PaintEvent e) {
-                render.renderStats(e.gc);
-            }
-        });
-        Canvas regionsPanel = new Canvas(outerGroup, SWT.NONE);
-        GridData regionsData = new GridData(GridData.FILL,GridData.FILL, true, true);
-        regionsData.horizontalSpan = 2;
-        regionsData.verticalSpan = 2;
-        regionsPanel.setLayoutData(regionsData);
-        regionsPanel.addPaintListener(new PaintListener() {
-            public void paintControl(PaintEvent e) {
-                render.renderRegions(e.gc);
-            }
-        });
-        
-        
-        Canvas legendPanel = new Canvas(outerGroup, SWT.NONE); 
-        GridData legendData = new GridData(GridData.FILL ,GridData.FILL, true, true);
-        legendData.verticalSpan = 2;	
-        legendPanel.setLayoutData(legendData);
-        legendPanel.addPaintListener(new PaintListener() {
-            public void paintControl(PaintEvent e) {
-             	render.renderLegend(e.gc);
-            }
-        });
-        
-        graphPanel.addListener (SWT.Resize,  new Listener () {
-            public void handleEvent (Event ev) {
-                render.notifyGraphResized(graphPanel.getBounds().width, graphPanel.getBounds().height);
-
-            }
-          });
-        
-        regionsPanel.addListener (SWT.Resize,  new Listener () {
-            public void handleEvent (Event ev) {
-            	render.notifyRegionResized(regionsPanel.getBounds().width, regionsPanel.getBounds().height);
-            }
-          });
-        
-        display.timerExec (100, render);
-       
-        shell.open();
-    	while (!shell.isDisposed()) {
-			if (!display.readAndDispatch())
-				display.sleep();
-		}
-    	display.dispose();
-    }
+//        graphPanel.addListener (SWT.Resize,  new Listener () {
+//            public void handleEvent (Event ev) {
+//                render.notifyGraphResized(graphPanel.getBounds().width, graphPanel.getBounds().height);
+//
+//            }1
+//          });
+//        
+//        regionsPanel.addListener (SWT.Resize,  new Listener () {
+//            public void handleEvent (Event ev) {
+//            	render.notifyRegionResized(regionsPanel.getBounds().width, regionsPanel.getBounds().height);
+//            }
+//          });
+//        
+//        display.timerExec (100, render);
+//       
+//        shell.open();
+//    	while (!shell.isDisposed()) {
+//			if (!display.readAndDispatch())
+//				display.sleep();
+//		}
+//    	display.dispose();
+//    }
 
 
 	public static class Render implements Runnable {
@@ -136,17 +122,16 @@ class ShenandoahVisualizer {
 
 		final DataProvider data;
 		final Group group;
-		final Display display;
 		int regionWidth, regionHeight;
 		int graphWidth, graphHeight;
 
 		final LinkedList<SnapshotView> lastSnapshots;
 		volatile Snapshot snapshot;
 
-		public Render(DataProvider data, Group outerGroup, Display display) {
+		public Render(DataProvider data, Group outerGroup) {
 			this.data = data;
 			this.group = outerGroup;
-			this.display = display;
+
 			this.regionHeight = INITIAL_HEIGHT;
 			this.regionWidth = INITIAL_WIDTH;
 			this.graphWidth =INITIAL_WIDTH;
@@ -166,7 +151,7 @@ class ShenandoahVisualizer {
 				}
 				if(!group.isDisposed()) {
 					group.redraw();
-					display.timerExec(100, this);
+					Display.getCurrent().timerExec(100, this);
 				}
 			}
 		}
@@ -339,5 +324,103 @@ class ShenandoahVisualizer {
 				this.graphHeight = height;
 	
 		}
+	}
+
+
+	@Override
+	public void createPartControl(Composite parent) {
+		String input = getInputFromUser("Please under the PID of the JVM");
+		Group outerGroup = new Group(parent, SWT.NONE);
+        GridLayout grid = new GridLayout();
+        grid.numColumns = 3;	
+        grid.makeColumnsEqualWidth = true;
+        GridData groupData = new GridData(SWT.FILL, SWT.FILL, true, true);
+        outerGroup.setLayout(grid);
+        outerGroup.setLayoutData(groupData);
+        outerGroup.setBounds(parent.getClientArea());
+    	Colors.device = Display.getCurrent();	
+    	try {
+			data = new DataProvider(input);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		}
+
+    	Render render = new Render(data, outerGroup);
+    	createPanels(outerGroup, render);
+    	Display.getCurrent().timerExec (100, render);
+	}
+
+
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public String getInputFromUser(String text){
+		  InputDialog input=new InputDialog(Display.getCurrent().getActiveShell(),null,text,null,null);
+		  input.open();
+		  input.close();
+		  return "local://" + input.getValue();
+		}
+	
+	public void createPanels(Composite parent, Render render) {
+		
+
+        Canvas graphPanel = new Canvas(parent, SWT.NONE);
+        GridData graphData = new GridData(GridData.FILL ,GridData.BEGINNING, true, false);
+        graphData.horizontalSpan = 2;
+        graphData.heightHint = 200;
+        graphPanel.setLayoutData(graphData);
+        graphPanel.addPaintListener(new PaintListener() {
+            public void paintControl(PaintEvent e) {
+                render.renderGraph(e.gc);
+            }
+        });
+        
+        Canvas statusPanel = new Canvas(parent, SWT.NONE);
+        GridData statusData = new GridData(GridData.FILL,GridData.FILL, false, false);
+
+        statusPanel.setLayoutData(statusData);
+        statusPanel.addPaintListener(new PaintListener() {
+            public void paintControl(PaintEvent e) {
+                render.renderStats(e.gc);
+            }
+        });
+        Canvas regionsPanel = new Canvas(parent, SWT.NONE);
+        GridData regionsData = new GridData(GridData.FILL,GridData.FILL, true, true);
+        regionsData.horizontalSpan = 2;
+        regionsData.verticalSpan = 2;
+        regionsPanel.setLayoutData(regionsData);
+        regionsPanel.addPaintListener(new PaintListener() {
+            public void paintControl(PaintEvent e) {
+                render.renderRegions(e.gc);
+            }
+        });
+        
+        
+        Canvas legendPanel = new Canvas(parent, SWT.NONE); 
+        GridData legendData = new GridData(GridData.FILL ,GridData.FILL, true, true);
+        legendData.verticalSpan = 2;	
+        legendPanel.setLayoutData(legendData);
+        legendPanel.addPaintListener(new PaintListener() {
+            public void paintControl(PaintEvent e) {
+             	render.renderLegend(e.gc);
+            }
+        });
+        
+        graphPanel.addListener (SWT.Resize,  new Listener () {
+            public void handleEvent (Event ev) {
+                render.notifyGraphResized(graphPanel.getBounds().width, graphPanel.getBounds().height);
+
+            }
+          });
+        
+        regionsPanel.addListener (SWT.Resize,  new Listener () {
+            public void handleEvent (Event ev) {
+            	render.notifyRegionResized(regionsPanel.getBounds().width, regionsPanel.getBounds().height);
+            }
+          });
 	}
 }
