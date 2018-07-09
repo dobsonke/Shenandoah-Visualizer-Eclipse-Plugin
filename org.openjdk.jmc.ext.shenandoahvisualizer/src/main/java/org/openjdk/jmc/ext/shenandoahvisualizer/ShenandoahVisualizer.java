@@ -26,7 +26,6 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeSelection;
-import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.swt.*;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.PaintEvent;
@@ -42,20 +41,14 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.ViewPart;
 import java.util.*;
 
-import org.openjdk.jmc.common.item.IItemCollection;
 import org.openjdk.jmc.ext.shenandoahvisualizer.Colors.*;
-import org.openjdk.jmc.rjmx.IConnectionHandle;
 import org.openjdk.jmc.rjmx.servermodel.IServer;
-import org.openjdk.jmc.ui.common.jvm.JVMDescriptor;
-import org.openjdk.jmc.ui.common.util.AdapterUtil;
 
 import static org.openjdk.jmc.ext.shenandoahvisualizer.RegionState.*;
 
 public class ShenandoahVisualizer extends ViewPart implements ISelectionListener {
 	private static final int INITIAL_WIDTH = 1000;
 	private static final int INITIAL_HEIGHT = 800;
-	private static DataProvider data;
-	private static Group outerGroup;
 	private static int pid;
 	private static Render render;
 	
@@ -310,8 +303,7 @@ public class ShenandoahVisualizer extends ViewPart implements ISelectionListener
 	
 	@Override
 	public void createPartControl(Composite parent) {
-		//String input = getInputFromUser("Please under the PID of the JVM");
-		outerGroup = new Group(parent, SWT.NONE);
+		Group outerGroup = new Group(parent, SWT.NONE);
         GridLayout grid = new GridLayout();
         grid.numColumns = 3;	
         grid.makeColumnsEqualWidth = true;
@@ -320,13 +312,9 @@ public class ShenandoahVisualizer extends ViewPart implements ISelectionListener
         outerGroup.setLayoutData(groupData);
         outerGroup.setBounds(parent.getClientArea());
     	Colors.device = Display.getCurrent();	
-//    	try {
-//			data = new DataProvider("local://" +pid);
-//		} catch (Exception e) {
-//		}
 
     	render = new Render(outerGroup);
-    	createPanels(outerGroup, render);
+    	createPanels(outerGroup);
     	Display.getCurrent().timerExec (100, render);
 	}
 
@@ -337,7 +325,7 @@ public class ShenandoahVisualizer extends ViewPart implements ISelectionListener
 		
 	}
 	
-	public void createPanels(Composite parent, Render render) {
+	public void createPanels(Composite parent) {
 		
 
 		Canvas graphPanel = new Canvas(parent, SWT.NONE);
@@ -416,7 +404,7 @@ public class ShenandoahVisualizer extends ViewPart implements ISelectionListener
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 		if (selection instanceof TreeSelection) {
 			TreePath[] paths = ((TreeSelection) selection).getPaths();
-			if (paths != null) {
+			if (paths.length != 0) {
 				Object seg = paths[0].getFirstSegment();
 				if (seg instanceof IServer) {
 					pid = ((IServer) seg).getServerHandle().getServerDescriptor().getJvmInfo().getPid();
