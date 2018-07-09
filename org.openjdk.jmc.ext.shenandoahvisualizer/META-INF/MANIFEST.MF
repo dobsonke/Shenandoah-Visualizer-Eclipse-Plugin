@@ -12,3 +12,6 @@ Require-Bundle: org.eclipse.swt,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Automatic-Module-Name: org.openjdk.jmc.ext.shenandoahvisualizer
 Export-Package: org.openjdk.jmc.ext.shenandoahvisualizer
+Import-Package: org.openjdk.jmc.rjmx,
+ org.openjdk.jmc.rjmx.servermodel,
+ org.openjdk.jmc.ui.common.jvm

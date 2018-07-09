@@ -22,6 +22,10 @@
  */
 package org.openjdk.jmc.ext.shenandoahvisualizer;
 
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.TreePath;
+import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.swt.*;
 import org.eclipse.swt.events.PaintListener;
@@ -30,20 +34,36 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
+import org.eclipse.ui.IMemento;
+import org.eclipse.ui.ISelectionListener;
+import org.eclipse.ui.IViewSite;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.ViewPart;
 import java.util.*;
+
+import org.openjdk.jmc.common.item.IItemCollection;
 import org.openjdk.jmc.ext.shenandoahvisualizer.Colors.*;
+import org.openjdk.jmc.rjmx.IConnectionHandle;
+import org.openjdk.jmc.rjmx.servermodel.IServer;
+import org.openjdk.jmc.ui.common.jvm.JVMDescriptor;
+import org.openjdk.jmc.ui.common.util.AdapterUtil;
+
 import static org.openjdk.jmc.ext.shenandoahvisualizer.RegionState.*;
 
-public class ShenandoahVisualizer extends ViewPart {
-	private static DataProvider data;
+public class ShenandoahVisualizer extends ViewPart implements ISelectionListener {
 	private static final int INITIAL_WIDTH = 1000;
 	private static final int INITIAL_HEIGHT = 800;
-
+	private static DataProvider data;
+	private static Group outerGroup;
+	private static int pid;
+	private static Render render;
+	
+	
 	public static class Render implements Runnable {
 		public static final int LINE = 20;
 
-		final DataProvider data;
+		DataProvider data;
 		final Group group;
 		int regionWidth, regionHeight;
 		int graphWidth, graphHeight;
@@ -51,8 +71,8 @@ public class ShenandoahVisualizer extends ViewPart {
 		final LinkedList<SnapshotView> lastSnapshots;
 		volatile Snapshot snapshot;
 
-		public Render(DataProvider data, Group outerGroup) {
-			this.data = data;
+		public Render(Group outerGroup) {
+			this.data = null;
 			this.group = outerGroup;
 
 			this.regionHeight = INITIAL_HEIGHT;
@@ -60,24 +80,29 @@ public class ShenandoahVisualizer extends ViewPart {
 			this.graphWidth =INITIAL_WIDTH;
 			this.graphHeight = INITIAL_HEIGHT;
 			this.lastSnapshots = new LinkedList<>();
-			this.snapshot = data.snapshot();
+			this.snapshot = null;
 		}
 
 		@Override
 		public synchronized void run() {
-			Snapshot cur = data.snapshot();
-			if (!cur.equals(snapshot)) {
-				snapshot = cur;
-				lastSnapshots.add(new SnapshotView(cur));
-				if (lastSnapshots.size() > graphWidth) {
-					lastSnapshots.removeFirst();
+			if (data != null) {
+				Snapshot cur = data.snapshot();
+				if (!cur.equals(snapshot)) {
+					snapshot = cur;
+					lastSnapshots.add(new SnapshotView(cur));
+					if (lastSnapshots.size() > graphWidth) {
+						lastSnapshots.removeFirst();
+					}
+					if (!group.isDisposed()) {
+						group.redraw();
+						Display.getCurrent().timerExec(100, this);
+					}
 				}
-				if(!group.isDisposed()) {
-					group.redraw();
-					Display.getCurrent().timerExec(100, this);
-				}
+			} else {
+				Display.getCurrent().timerExec(100, this);
 			}
 		}
+		
 
 		public synchronized void renderGraph(GC g) {
 			if (lastSnapshots.size() < 2)
@@ -235,6 +260,11 @@ public class ShenandoahVisualizer extends ViewPart {
 			g.drawText("Used: " + (snapshot.used()) + " KB", 0, 3 * LINE, true);
 			g.drawText("Live: " + (snapshot.live()) + " KB", 0, 4 * LINE, true);
 		}
+		
+		public synchronized void renderErrorScreen(GC g) {
+			g.setForeground(g.getDevice().getSystemColor(SWT.COLOR_BLACK));
+			g.drawText("Please select a JVM running Shenandoah",0, 0, true);
+		}
 
 		public synchronized void notifyRegionResized(int width, int height) {
 				this.regionWidth = width;
@@ -247,13 +277,41 @@ public class ShenandoahVisualizer extends ViewPart {
 				this.graphHeight = height;
 	
 		}
+		public synchronized void updateDataProvider() throws Exception {
+			this.data = new DataProvider("local://" + pid);
+			this.snapshot = this.data.snapshot();
+		}
+		
+		public synchronized void notRunningShenandoah() {
+			this.data = null;	
+			
+		}
+		public synchronized boolean isDataNull() {
+			if(this.data == null) {
+				return true;
+			}
+			return false;
+		}
 	}
 
 
 	@Override
+	public void init(IViewSite site, IMemento memento) throws PartInitException {
+		super.init(site, memento);
+		getSite().getPage().addSelectionListener(this);
+
+	}
+	
+	@Override
+	public void dispose() {
+		getSite().getPage().removeSelectionListener(this);
+		super.dispose();
+	}
+	
+	@Override
 	public void createPartControl(Composite parent) {
-		String input = getInputFromUser("Please under the PID of the JVM");
-		Group outerGroup = new Group(parent, SWT.NONE);
+		//String input = getInputFromUser("Please under the PID of the JVM");
+		outerGroup = new Group(parent, SWT.NONE);
         GridLayout grid = new GridLayout();
         grid.numColumns = 3;	
         grid.makeColumnsEqualWidth = true;
@@ -262,13 +320,12 @@ public class ShenandoahVisualizer extends ViewPart {
         outerGroup.setLayoutData(groupData);
         outerGroup.setBounds(parent.getClientArea());
     	Colors.device = Display.getCurrent();	
-    	try {
-			data = new DataProvider(input);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-		}
+//    	try {
+//			data = new DataProvider("local://" +pid);
+//		} catch (Exception e) {
+//		}
 
-    	Render render = new Render(data, outerGroup);
+    	render = new Render(outerGroup);
     	createPanels(outerGroup, render);
     	Display.getCurrent().timerExec (100, render);
 	}
@@ -280,57 +337,60 @@ public class ShenandoahVisualizer extends ViewPart {
 		
 	}
 	
-	public String getInputFromUser(String text){
-		  InputDialog input=new InputDialog(Display.getCurrent().getActiveShell(),null,text,null,null);
-		  input.open();
-		  input.close();
-		  return "local://" + input.getValue();
-		}
-	
 	public void createPanels(Composite parent, Render render) {
 		
 
-        Canvas graphPanel = new Canvas(parent, SWT.NONE);
-        GridData graphData = new GridData(GridData.FILL ,GridData.BEGINNING, true, false);
-        graphData.horizontalSpan = 2;
-        graphData.heightHint = 200;
-        graphPanel.setLayoutData(graphData);
-        graphPanel.addPaintListener(new PaintListener() {
-            public void paintControl(PaintEvent e) {
-                render.renderGraph(e.gc);
-            }
-        });
-        
-        Canvas statusPanel = new Canvas(parent, SWT.NONE);
-        GridData statusData = new GridData(GridData.FILL,GridData.FILL, false, false);
+		Canvas graphPanel = new Canvas(parent, SWT.NONE);
+		GridData graphData = new GridData(GridData.FILL, GridData.BEGINNING, true, false);
+		graphData.horizontalSpan = 2;
+		graphData.heightHint = 200;
+		graphPanel.setLayoutData(graphData);
+		graphPanel.addPaintListener(new PaintListener() {
+			public void paintControl(PaintEvent e) {
+				if (!render.isDataNull()) {
+					render.renderGraph(e.gc);
+				}
+				else {
+					render.renderErrorScreen(e.gc);
+				}
+			}
+		});
 
-        statusPanel.setLayoutData(statusData);
-        statusPanel.addPaintListener(new PaintListener() {
-            public void paintControl(PaintEvent e) {
-                render.renderStats(e.gc);
-            }
-        });
-        Canvas regionsPanel = new Canvas(parent, SWT.NONE);
-        GridData regionsData = new GridData(GridData.FILL,GridData.FILL, true, true);
-        regionsData.horizontalSpan = 2;
-        regionsData.verticalSpan = 2;
-        regionsPanel.setLayoutData(regionsData);
-        regionsPanel.addPaintListener(new PaintListener() {
-            public void paintControl(PaintEvent e) {
-                render.renderRegions(e.gc);
-            }
-        });
-        
-        
-        Canvas legendPanel = new Canvas(parent, SWT.NONE); 
-        GridData legendData = new GridData(GridData.FILL ,GridData.FILL, true, true);
-        legendData.verticalSpan = 2;	
-        legendPanel.setLayoutData(legendData);
-        legendPanel.addPaintListener(new PaintListener() {
-            public void paintControl(PaintEvent e) {
-             	render.renderLegend(e.gc);
-            }
-        });
+		Canvas statusPanel = new Canvas(parent, SWT.NONE);
+		GridData statusData = new GridData(GridData.FILL, GridData.FILL, false, false);
+
+		statusPanel.setLayoutData(statusData);
+		statusPanel.addPaintListener(new PaintListener() {
+			public void paintControl(PaintEvent e) {
+				if (!render.isDataNull()) {
+					render.renderStats(e.gc);
+				}
+			}
+		});
+		Canvas regionsPanel = new Canvas(parent, SWT.NONE);
+		GridData regionsData = new GridData(GridData.FILL, GridData.FILL, true, true);
+		regionsData.horizontalSpan = 2;
+		regionsData.verticalSpan = 2;
+		regionsPanel.setLayoutData(regionsData);
+		regionsPanel.addPaintListener(new PaintListener() {
+			public void paintControl(PaintEvent e) {
+				if (!render.isDataNull()) {
+					render.renderRegions(e.gc);
+				}
+			}
+		});
+
+		Canvas legendPanel = new Canvas(parent, SWT.NONE);
+		GridData legendData = new GridData(GridData.FILL, GridData.FILL, true, true);
+		legendData.verticalSpan = 2;
+		legendPanel.setLayoutData(legendData);
+		legendPanel.addPaintListener(new PaintListener() {
+			public void paintControl(PaintEvent e) {
+				if (!render.isDataNull()) {
+					render.renderLegend(e.gc);
+				}
+			}
+		});
         
         graphPanel.addListener (SWT.Resize,  new Listener () {
             public void handleEvent (Event ev) {
@@ -344,5 +404,35 @@ public class ShenandoahVisualizer extends ViewPart {
             	render.notifyRegionResized(regionsPanel.getBounds().width, regionsPanel.getBounds().height);
             }
           });
+	}
+	public void updateVisualizer() throws Exception {
+		render.updateDataProvider();
+	}
+	public void notSupported() {
+		render.notRunningShenandoah();
+	}
+
+	@Override
+	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+		if (selection instanceof TreeSelection) {
+			TreePath[] paths = ((TreeSelection) selection).getPaths();
+			if (paths != null) {
+				Object seg = paths[0].getFirstSegment();
+				if (seg instanceof IServer) {
+					pid = ((IServer) seg).getServerHandle().getServerDescriptor().getJvmInfo().getPid();
+					String args = ((IServer) seg).getServerHandle().getServerDescriptor().getJvmInfo()
+							.getJVMArguments();
+					if (args.contains("-XX:+UsePerfData") && args.contains("-XX:+UnlockExperimentalVMOptions")
+							&& args.contains("-XX:+ShenandoahRegionSampling")) {
+						try {
+							updateVisualizer();
+						} catch (Exception e) {
+						}
+					} else {
+						render.notRunningShenandoah();
+					}
+				}
+			}
+		}
 	}
 }
