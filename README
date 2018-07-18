@@ -8,21 +8,19 @@ Run:
  1. Start Shenandoah with these additional flags:
      -XX:+UsePerfData -XX:+UnlockExperimentalVMOptions -XX:+ShenandoahRegionSampling
 
- 2. Figure out the process PID
 
- 3. Import the project into eclipse
+ 2. Import the project into eclipse
 
- 4. Ensure you have the SWT library and tools.jar available and add it to the build path by right clicking on jmc and going to Build Path -> Configure Build Path... 
 		
- 5. Attach Visualizer:
+ 3. Attach Visualizer:
     add -Xbootclasspath/p:<path-to-tools.jar> as a VM argument to run configurations in Eclipse 
     for your JMC RCP plugins run config. 
     tools.jar is usually at $JAVA_HOME/lib
 
- 6. Go to the plugins tab and select Add Plugins from the sidebar. Search for shenandoahvisualizer and select it.
- 7. Choose Select Required to ensure all the necessary plugins are included.
+ 4. Go to the plugins tab and select Add Plugins from the sidebar. Search for shenandoahvisualizer and select it.
+ 5. Choose Select Required to ensure all the necessary plugins are included.
 
- 8. Apply and run it
+ 6. Apply and run it
 
 
 
