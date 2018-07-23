@@ -7,7 +7,7 @@ Run:
 
 		
  3. Attach Visualizer:
-  Select the JMC RCP plugins run config from Run -> Run Configurations in Eclipse which is a run config for Mission Control. It should run org.openjdk.jmc.rcp.application.product. Go to the arguments tab in Eclipse for the run config and add -Xbootpaht/p:<path-to-tools.jar>. 
+  Select the JMC RCP plugins run config from Run -> Run Configurations in Eclipse which is a run config for Mission Control. It should run org.openjdk.jmc.rcp.application.product. Go to the arguments tab in Eclipse for the run config and add -Xbootpath/p:<path-to-tools.jar>. 
     tools.jar is usually at $JAVA_HOME/lib
 
  4. Go to the plugins tab in the Run Configurations for the same run config and select Add Plugins from the sidebar. Search for shenandoahvisualizer and select it.
