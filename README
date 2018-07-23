@@ -1,17 +1,16 @@
 Run:
- 1. Start Shenandoah with these additional flags:
+ 1. Start a JVM running Shenandoah with these additional flags:
      -XX:+UsePerfData -XX:+UnlockExperimentalVMOptions -XX:+ShenandoahRegionSampling
 
 
- 2. Import the project into eclipse
+ 2. Import this project and Java Mission Control into eclipse
 
 		
  3. Attach Visualizer:
-    add -Xbootclasspath/p:<path-to-tools.jar> as a VM argument to run configurations in Eclipse 
-    for your JMC RCP plugins run config. 
+  Select the JMC RCP plugins run config from Run -> Run Configurations in Eclipse which is a run config for Mission Control. It should run org.openjdk.jmc.rcp.application.product. Go to the arguments tab in Eclipse for the run config and add -Xbootpaht/p:<path-to-tools.jar>. 
     tools.jar is usually at $JAVA_HOME/lib
 
- 4. Go to the plugins tab and select Add Plugins from the sidebar. Search for shenandoahvisualizer and select it.
+ 4. Go to the plugins tab in the Run Configurations for the same run config and select Add Plugins from the sidebar. Search for shenandoahvisualizer and select it.
  5. Choose Select Required to ensure all the necessary plugins are included.
 
  6. Apply and run it
