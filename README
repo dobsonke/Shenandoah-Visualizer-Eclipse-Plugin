@@ -15,6 +15,8 @@ Run:
 
  6. Apply and run it
 
+ 7. Once JMC is running select a JVM running Shenandoah then go the Window->Show View->Other. Shenandoah Visualizer should be found under the Mission Control folder.
 
+ 8. You can switch between visualizing different JVM's just by selecting them in the JVM Browser, a message will be displayed if the JVM is not running Shenandoah
 
  
