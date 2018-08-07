@@ -8,6 +8,10 @@
       %description
    </description>
 
+	<requires>
+      <import feature="org.openjdk.jmc.feature.core" match="equivalent"/>
+   </requires>
+   
    <plugin
          id="org.openjdk.jmc.ext.shenandoahvisualizer"
          download-size="0"
