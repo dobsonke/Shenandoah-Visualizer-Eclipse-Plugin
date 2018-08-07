@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ShenanandoahVisualizer
 Bundle-SymbolicName: org.openjdk.jmc.ext.shenandoahvisualizer;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 7.0.0.qualifier
 Bundle-Vendor: Red Hat
 Require-Bundle: org.eclipse.swt,
  org.eclipse.ui.ide,

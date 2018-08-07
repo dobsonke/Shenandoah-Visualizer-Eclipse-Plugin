@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.openjdk.jmc.feature.ext.shenandoahvisualizer"
-      label= "%name"
-      version="1.0.0.qualifier">
+      label="%name"
+      version="7.0.0.qualifier">
 
    <description>
       %description
    </description>
 
-	<requires>
+   <requires>
       <import feature="org.openjdk.jmc.feature.core" match="equivalent"/>
    </requires>
-   
+
    <plugin
          id="org.openjdk.jmc.ext.shenandoahvisualizer"
          download-size="0"
          install-size="0"
-         version="0.0.0"
-         unpack="true"/>
+         version="0.0.0"/>
 
 </feature>
