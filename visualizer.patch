@@ -1,6 +1,6 @@
-diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/.classpath
+diff -r 49f6575169ce application/org.openjdk.jmc.ext.shenandoahvisualizer/.classpath
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/application/org.openjdk.jmc.ext.shenandoahvisualizer/.classpath	Wed Aug 01 15:01:51 2018 -0400
++++ b/application/org.openjdk.jmc.ext.shenandoahvisualizer/.classpath	Tue Aug 28 16:08:35 2018 -0400
 @@ -0,0 +1,28 @@
 +<?xml version="1.0" encoding="UTF-8"?>
 +<classpath>
@@ -27,13 +27,13 @@ diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/.class
 +		</attributes>
 +	</classpathentry>
 +	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-+	<classpathentry kind="lib" path="/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.171-4.b10.fc28.x86_64/lib/tools.jar"/>
++	<classpathentry kind="lib" path="/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.181-7.b13.fc28.x86_64/lib/tools.jar"/>
 +	<classpathentry kind="output" path="target/classes"/>
 +</classpath>
-diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/.project
+diff -r 49f6575169ce application/org.openjdk.jmc.ext.shenandoahvisualizer/.project
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/application/org.openjdk.jmc.ext.shenandoahvisualizer/.project	Wed Aug 01 15:01:51 2018 -0400
-@@ -0,0 +1,28 @@
++++ b/application/org.openjdk.jmc.ext.shenandoahvisualizer/.project	Tue Aug 28 16:08:35 2018 -0400
+@@ -0,0 +1,34 @@
 +<?xml version="1.0" encoding="UTF-8"?>
 +<projectDescription>
 +	<name>org.openjdk.jmc.ext.shenandoahvisualizer</name>
@@ -56,33 +56,39 @@ diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/.proje
 +			<arguments>
 +			</arguments>
 +		</buildCommand>
++		<buildCommand>
++			<name>org.eclipse.m2e.core.maven2Builder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
 +	</buildSpec>
 +	<natures>
++		<nature>org.eclipse.m2e.core.maven2Nature</nature>
 +		<nature>org.eclipse.jdt.core.javanature</nature>
 +		<nature>org.eclipse.pde.PluginNature</nature>
 +	</natures>
 +</projectDescription>
-diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/.settings/org.eclipse.core.resources.prefs
+diff -r 49f6575169ce application/org.openjdk.jmc.ext.shenandoahvisualizer/.settings/org.eclipse.core.resources.prefs
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/application/org.openjdk.jmc.ext.shenandoahvisualizer/.settings/org.eclipse.core.resources.prefs	Wed Aug 01 15:01:51 2018 -0400
++++ b/application/org.openjdk.jmc.ext.shenandoahvisualizer/.settings/org.eclipse.core.resources.prefs	Tue Aug 28 16:08:35 2018 -0400
 @@ -0,0 +1,4 @@
 +eclipse.preferences.version=1
 +encoding//src/main/java=UTF-8
 +encoding//src/test/java=UTF-8
 +encoding/<project>=UTF-8
-diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/.settings/org.eclipse.jdt.core.prefs
+diff -r 49f6575169ce application/org.openjdk.jmc.ext.shenandoahvisualizer/.settings/org.eclipse.jdt.core.prefs
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/application/org.openjdk.jmc.ext.shenandoahvisualizer/.settings/org.eclipse.jdt.core.prefs	Wed Aug 01 15:01:51 2018 -0400
++++ b/application/org.openjdk.jmc.ext.shenandoahvisualizer/.settings/org.eclipse.jdt.core.prefs	Tue Aug 28 16:08:35 2018 -0400
 @@ -0,0 +1,5 @@
 +eclipse.preferences.version=1
 +org.eclipse.jdt.core.compiler.codegen.targetPlatform=1.8
 +org.eclipse.jdt.core.compiler.compliance=1.8
 +org.eclipse.jdt.core.compiler.problem.forbiddenReference=warning
 +org.eclipse.jdt.core.compiler.source=1.8
-diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/META-INF/MANIFEST.MF
+diff -r 49f6575169ce application/org.openjdk.jmc.ext.shenandoahvisualizer/META-INF/MANIFEST.MF
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/application/org.openjdk.jmc.ext.shenandoahvisualizer/META-INF/MANIFEST.MF	Wed Aug 01 15:01:51 2018 -0400
-@@ -0,0 +1,16 @@
++++ b/application/org.openjdk.jmc.ext.shenandoahvisualizer/META-INF/MANIFEST.MF	Tue Aug 28 16:08:35 2018 -0400
+@@ -0,0 +1,19 @@
 +Manifest-Version: 1.0
 +Bundle-ManifestVersion: 2
 +Bundle-Name: ShenanandoahVisualizer
@@ -98,42 +104,45 @@ diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/META-I
 +Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 +Automatic-Module-Name: org.openjdk.jmc.ext.shenandoahvisualizer
 +Export-Package: org.openjdk.jmc.ext.shenandoahvisualizer
++Import-Package: org.eclipse.ui.forms,
++ org.eclipse.ui.forms.widgets,
++ org.openjdk.jmc.console.ui.editor
 +
-diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/build.properties
+diff -r 49f6575169ce application/org.openjdk.jmc.ext.shenandoahvisualizer/build.properties
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/application/org.openjdk.jmc.ext.shenandoahvisualizer/build.properties	Wed Aug 01 15:01:51 2018 -0400
-@@ -0,0 +1,7 @@
++++ b/application/org.openjdk.jmc.ext.shenandoahvisualizer/build.properties	Tue Aug 28 16:08:35 2018 -0400
+@@ -0,0 +1,8 @@
 +source.. = src/main/java/,\
 +           src/test/java/
 +output.. = target/classes/
 +bin.includes = META-INF/,\
 +               .,\
++               legend.png,\
 +               plugin.xml
 +pde.match.rule.bundle = compatible
-diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/legend.png
+diff -r 49f6575169ce application/org.openjdk.jmc.ext.shenandoahvisualizer/legend.png
 Binary file application/org.openjdk.jmc.ext.shenandoahvisualizer/legend.png has changed
-diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/plugin.xml
+diff -r 49f6575169ce application/org.openjdk.jmc.ext.shenandoahvisualizer/plugin.xml
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/application/org.openjdk.jmc.ext.shenandoahvisualizer/plugin.xml	Wed Aug 01 15:01:51 2018 -0400
-@@ -0,0 +1,14 @@
++++ b/application/org.openjdk.jmc.ext.shenandoahvisualizer/plugin.xml	Tue Aug 28 16:08:35 2018 -0400
+@@ -0,0 +1,13 @@
 +<?xml version="1.0" encoding="UTF-8"?>
 +<?eclipse version="3.2"?>
 +<plugin>
-+    <extension point="org.eclipse.ui.views">
-+        <view
-+          allowMultiple="false"
-+          category="org.openjdk.jmc.ui.main"
-+          class="org.openjdk.jmc.ext.shenandoahvisualizer.ShenandoahVisualizer"
-+          id="org.openjdk.jmc.ext.shenandoahvisualizer.ShenandoahVisualizer"
-+          name="Shenandoah Visualizer"
-+          restorable="true">
-+        </view>
++    <extension point="org.openjdk.jmc.console.ui.consolepage">
++        <consolePage
++            hostEditorId="org.openjdk.jmc.console.ui.editor"
++            class="org.openjdk.jmc.ext.shenandoahvisualizer.ShenandoahVisualizer"
++            name="ShenandoahVisualizer"
++            id="org.openjdk.jmc.ext.shenandoahvisualizer.ShenandoahVisualizer"
++            placement="/#8.0">
++      </consolePage>
 +    </extension>
 +</plugin>
 \ No newline at end of file
-diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/pom.xml
+diff -r 49f6575169ce application/org.openjdk.jmc.ext.shenandoahvisualizer/pom.xml
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/application/org.openjdk.jmc.ext.shenandoahvisualizer/pom.xml	Wed Aug 01 15:01:51 2018 -0400
++++ b/application/org.openjdk.jmc.ext.shenandoahvisualizer/pom.xml	Tue Aug 28 16:08:35 2018 -0400
 @@ -0,0 +1,63 @@
 +<?xml version="1.0" encoding="UTF-8"?>
 +<!--   
@@ -198,10 +207,10 @@ diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/pom.xm
 +		</plugins>
 +	</build>
 +</project>
-diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/src/main/java/org/openjdk/jmc/ext/shenandoahvisualizer/Colors.java
+diff -r 49f6575169ce application/org.openjdk.jmc.ext.shenandoahvisualizer/src/main/java/org/openjdk/jmc/ext/shenandoahvisualizer/Colors.java
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/application/org.openjdk.jmc.ext.shenandoahvisualizer/src/main/java/org/openjdk/jmc/ext/shenandoahvisualizer/Colors.java	Wed Aug 01 15:01:51 2018 -0400
-@@ -0,0 +1,36 @@
++++ b/application/org.openjdk.jmc.ext.shenandoahvisualizer/src/main/java/org/openjdk/jmc/ext/shenandoahvisualizer/Colors.java	Tue Aug 28 16:08:35 2018 -0400
+@@ -0,0 +1,37 @@
 +package org.openjdk.jmc.ext.shenandoahvisualizer;
 +
 +import org.eclipse.swt.widgets.Display;
@@ -214,6 +223,7 @@ diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/src/ma
 +    static final Color TIMELINE_MARK        = new Color(device, 100, 100, 0);
 +    static final Color TIMELINE_EVACUATING  = new Color(device, 100, 0, 0);
 +    static final Color TIMELINE_UPDATEREFS  = new Color(device, 0, 100, 100);
++    static final Color TIMELINE_TRAVERSAL   = TIMELINE_EVACUATING;
 +
 +    static final Color SHARED_ALLOC           = new Color(device, 0, 250, 250);
 +    static final Color SHARED_ALLOC_BORDER    = new Color(device, 0, 191, 190);
@@ -238,9 +248,9 @@ diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/src/ma
 +    static final Color BORDER               = new Color(device, 150, 150, 150);
 +    
 +}
-diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/src/main/java/org/openjdk/jmc/ext/shenandoahvisualizer/DataProvider.java
+diff -r 49f6575169ce application/org.openjdk.jmc.ext.shenandoahvisualizer/src/main/java/org/openjdk/jmc/ext/shenandoahvisualizer/DataProvider.java
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/application/org.openjdk.jmc.ext.shenandoahvisualizer/src/main/java/org/openjdk/jmc/ext/shenandoahvisualizer/DataProvider.java	Wed Aug 01 15:01:51 2018 -0400
++++ b/application/org.openjdk.jmc.ext.shenandoahvisualizer/src/main/java/org/openjdk/jmc/ext/shenandoahvisualizer/DataProvider.java	Tue Aug 28 16:08:35 2018 -0400
 @@ -0,0 +1,58 @@
 +package org.openjdk.jmc.ext.shenandoahvisualizer;
 +
@@ -300,10 +310,10 @@ diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/src/ma
 +    }
 +
 +}
-diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/src/main/java/org/openjdk/jmc/ext/shenandoahvisualizer/Phase.java
+diff -r 49f6575169ce application/org.openjdk.jmc.ext.shenandoahvisualizer/src/main/java/org/openjdk/jmc/ext/shenandoahvisualizer/Phase.java
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/application/org.openjdk.jmc.ext.shenandoahvisualizer/src/main/java/org/openjdk/jmc/ext/shenandoahvisualizer/Phase.java	Wed Aug 01 15:01:51 2018 -0400
-@@ -0,0 +1,15 @@
++++ b/application/org.openjdk.jmc.ext.shenandoahvisualizer/src/main/java/org/openjdk/jmc/ext/shenandoahvisualizer/Phase.java	Tue Aug 28 16:08:35 2018 -0400
+@@ -0,0 +1,17 @@
 +package org.openjdk.jmc.ext.shenandoahvisualizer;
 +
 +public enum Phase {
@@ -315,19 +325,22 @@ diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/src/ma
 +    EVACUATING,
 +
 +    UPDATE_REFS,
++    
++    TRAVERSAL,
 +
 +    UNKNOWN,
 +
 +}
 \ No newline at end of file
-diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/src/main/java/org/openjdk/jmc/ext/shenandoahvisualizer/RegionStat.java
+diff -r 49f6575169ce application/org.openjdk.jmc.ext.shenandoahvisualizer/src/main/java/org/openjdk/jmc/ext/shenandoahvisualizer/RegionStat.java
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/application/org.openjdk.jmc.ext.shenandoahvisualizer/src/main/java/org/openjdk/jmc/ext/shenandoahvisualizer/RegionStat.java	Wed Aug 01 15:01:51 2018 -0400
-@@ -0,0 +1,212 @@
++++ b/application/org.openjdk.jmc.ext.shenandoahvisualizer/src/main/java/org/openjdk/jmc/ext/shenandoahvisualizer/RegionStat.java	Tue Aug 28 16:08:35 2018 -0400
+@@ -0,0 +1,249 @@
 +package org.openjdk.jmc.ext.shenandoahvisualizer;
 +
 +import org.eclipse.swt.SWT;
 +import org.eclipse.swt.graphics.GC;
++import org.eclipse.swt.graphics.Color;
 +
 +import java.util.BitSet;
 +import java.util.EnumSet;
@@ -415,71 +428,107 @@ diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/src/ma
 +                return DEFAULT;
 +        }
 +    }
-+
-+    public void render(GC g, int x, int y, int width, int height) {
-+        g.setBackground(DEFAULT);
-+        g.fillRectangle(x, y, width, height);
-+
-+        int usedWidth = (int) (width * usedLvl);
-+        g.setBackground(USED);
-+        g.fillRectangle(x, y, usedWidth, height);
-+
-+        if (state == RegionState.REGULAR) {
-+            if (gclabLvl > 0 || tlabLvl > 0 || sharedLvl > 0) {
-+                int sharedWidth = (int) (width * liveLvl * sharedLvl);
-+                int tlabWidth = (int) (width * liveLvl * tlabLvl);
-+                int gclabWidth = (int) (width * liveLvl * gclabLvl);
-+
-+                int h = height;
-+                int ly = y + (height - h);
-+                int lx = x;
-+
-+                g.setBackground(TLAB_ALLOC);
-+                g.fillRectangle(lx, ly, tlabWidth, h);
-+                g.setForeground(TLAB_ALLOC_BORDER);
-+                g.drawRectangle(lx, ly, tlabWidth, h);
-+
-+                lx += tlabWidth;
-+                g.setBackground(GCLAB_ALLOC);
-+                g.fillRectangle(lx, ly, gclabWidth, h);
-+                g.setForeground(GCLAB_ALLOC_BORDER);
-+                g.drawRectangle(lx, ly, gclabWidth, h);
-+
-+                lx += gclabWidth;
-+                g.setBackground(SHARED_ALLOC);
-+                g.fillRectangle(lx, ly, sharedWidth, h);
-+                g.setForeground(SHARED_ALLOC_BORDER);
-+                g.drawRectangle(lx, ly, sharedWidth, h);
-+            }
-+        } else {
-+            int liveWidth = (int) (width * liveLvl);
-+            g.setBackground(selectLive(state));
-+            g.fillRectangle(x, y, liveWidth, height);
-+
-+            g.setForeground	(LIVE_BORDER);
-+            g.drawLine(x + liveWidth, y, x + liveWidth, y + height);
-+        }
-+
-+
-+        if (state == RegionState.TRASH) {
-+        	g.setForeground(g.getDevice().getSystemColor(SWT.COLOR_BLACK));
-+            g.drawLine(x, y, x + width, y + height);
-+            g.drawLine(x, y + height, x + width, y);
-+        }
-+
-+        if (state == RegionState.EMPTY_UNCOMMITTED) {
-+            g.setForeground(BORDER);
-+            for (int t = 0; t < 3; t++) {
-+                int off = width * t / 3;
-+                g.drawLine(x, y + off, x + off, y);
-+                g.drawLine(x + off, y + height, x + width, y + off);
-+            }
-+
-+        }
-+
-+        g.setForeground(Colors.BORDER);
-+        g.drawRectangle(x, y, width, height);
++    private Color mixAlpha(Color c, float alpha) {
++    	return new Color(Colors.device, c.getRed(), c.getGreen(), c.getBlue(), (int) alpha * 155 + 100);
 +    }
++
++	public void render(GC g, int x, int y, int width, int height) {
++		g.setBackground(g.getDevice().getSystemColor(SWT.COLOR_WHITE));
++		g.fillRectangle(x, y, width, height);
++
++		switch (state) {
++			case REGULAR: {
++				if (gclabLvl > 0 || tlabLvl > 0 || sharedLvl > 0) {
++			
++					int sharedWidth = (int) (width * sharedLvl);
++					int tlabWidth = (int) (width * tlabLvl);
++					int gclabWidth = (int) (width * gclabLvl);
++
++					int h = height;
++					int ly = y + (height - h);
++					int lx = x;
++					int alpha = liveLvl < 0.5f ? 100 : 255;
++					g.setAlpha(alpha);
++					
++					if (tlabWidth > 0) {
++						g.setBackground(TLAB_ALLOC);
++						g.fillRectangle(lx, ly, tlabWidth, h);
++						g.setForeground(TLAB_ALLOC_BORDER);
++						g.drawRectangle(lx, ly, tlabWidth, h);
++						lx += tlabWidth;
++					}
++					
++					
++					if (gclabWidth > 0) {
++						g.setBackground(GCLAB_ALLOC);
++						g.fillRectangle(lx, ly, gclabWidth, h);
++						g.setForeground(GCLAB_ALLOC_BORDER);
++						g.drawRectangle(lx, ly, gclabWidth, h);
++						lx += gclabWidth;
++					}
++					
++					if (sharedWidth > 0) {
++						
++						g.setBackground(SHARED_ALLOC);
++						g.fillRectangle(lx, ly, sharedWidth, h);
++						g.setForeground(SHARED_ALLOC_BORDER);
++						g.drawRectangle(lx, ly, sharedWidth, h);
++					}
++					g.setAlpha(255);
++				}
++				break;
++			}
++			case PINNED: {
++				g.setAlpha(255);
++				int usedWidth = (int) (width * usedLvl);
++				g.setBackground(LIVE_PINNED);
++				g.fillRectangle(x, y, usedWidth, height);
++				break;
++			}
++			case CSET:
++			case PINNED_CSET:
++			case HUMONGOUS:
++			case PINNED_HUMONGOUS: {
++				g.setAlpha(255);
++				int usedWidth = (int) (width * usedLvl);
++				g.setBackground(USED);
++				g.fillRectangle(x, y, usedWidth, height);
++
++				int liveWidth = (int) (width * liveLvl);
++				g.setBackground(selectLive(state));
++				g.fillRectangle(x, y, liveWidth, height);
++
++				g.setForeground(LIVE_BORDER);
++				g.drawLine(x + liveWidth, y, x + liveWidth, y + height);
++				break;
++			}
++			case EMPTY_COMMITTED:
++			case EMPTY_UNCOMMITTED:
++			case TRASH:
++				break;
++			default:
++				throw new IllegalStateException("Unhandled region state: " + state);
++		}
++
++		if (state == RegionState.TRASH) {
++			g.setForeground(g.getDevice().getSystemColor(SWT.COLOR_BLACK));
++			g.drawLine(x, y, x + width, y + height);
++			g.drawLine(x, y + height, x + width, y);
++		}
++
++		if (state == RegionState.EMPTY_UNCOMMITTED) {
++			g.setBackground(LIVE_COMMITTED);
++			g.fillRectangle(x,y,width,height);
++			//for (int t = 0; t < 3; t++) {
++//				int off = width * 1 / 3;
++//				g.drawLine(x, y + off, x + off, y);
++//				g.drawLine(x + off, y + height, x + width, y + off);
++			//}
++		}
++
++		g.setForeground(Colors.BORDER);
++		g.drawRectangle(x, y, width, height);
++	}
 +
 +    @Override
 +    public boolean equals(Object o) {
@@ -536,9 +585,9 @@ diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/src/ma
 +    }
 +
 +}
-diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/src/main/java/org/openjdk/jmc/ext/shenandoahvisualizer/RegionState.java
+diff -r 49f6575169ce application/org.openjdk.jmc.ext.shenandoahvisualizer/src/main/java/org/openjdk/jmc/ext/shenandoahvisualizer/RegionState.java
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/application/org.openjdk.jmc.ext.shenandoahvisualizer/src/main/java/org/openjdk/jmc/ext/shenandoahvisualizer/RegionState.java	Wed Aug 01 15:01:51 2018 -0400
++++ b/application/org.openjdk.jmc.ext.shenandoahvisualizer/src/main/java/org/openjdk/jmc/ext/shenandoahvisualizer/RegionState.java	Tue Aug 28 16:08:35 2018 -0400
 @@ -0,0 +1,42 @@
 +package org.openjdk.jmc.ext.shenandoahvisualizer;
 +
@@ -582,10 +631,10 @@ diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/src/ma
 +    }
 +
 +}
-diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/src/main/java/org/openjdk/jmc/ext/shenandoahvisualizer/ShenandoahVisualizer.java
+diff -r 49f6575169ce application/org.openjdk.jmc.ext.shenandoahvisualizer/src/main/java/org/openjdk/jmc/ext/shenandoahvisualizer/ShenandoahVisualizer.java
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/application/org.openjdk.jmc.ext.shenandoahvisualizer/src/main/java/org/openjdk/jmc/ext/shenandoahvisualizer/ShenandoahVisualizer.java	Wed Aug 01 15:01:51 2018 -0400
-@@ -0,0 +1,426 @@
++++ b/application/org.openjdk.jmc.ext.shenandoahvisualizer/src/main/java/org/openjdk/jmc/ext/shenandoahvisualizer/ShenandoahVisualizer.java	Tue Aug 28 16:08:35 2018 -0400
+@@ -0,0 +1,468 @@
 +/*
 + * Copyright (c) 2016, Red Hat, Inc. and/or its affiliates.
 + *
@@ -610,37 +659,84 @@ diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/src/ma
 + */
 +package org.openjdk.jmc.ext.shenandoahvisualizer;
 +
-+import org.eclipse.jface.viewers.ISelection;
-+import org.eclipse.jface.viewers.IStructuredSelection;
-+import org.eclipse.jface.viewers.TreePath;
-+import org.eclipse.jface.viewers.TreeSelection;
++import javax.inject.Inject;
++//import org.eclipse.jface.viewers.ISelection;
++//import org.eclipse.jface.viewers.IStructuredSelection;
++//import org.eclipse.jface.viewers.TreePath;
++//import org.eclipse.jface.viewers.TreeSelection;
 +import org.eclipse.swt.*;
 +import org.eclipse.swt.events.PaintListener;
++import org.eclipse.swt.events.ControlAdapter;
++import org.eclipse.swt.events.ControlEvent;
++import org.eclipse.swt.events.DisposeEvent;
++import org.eclipse.swt.events.DisposeListener;
 +import org.eclipse.swt.events.PaintEvent;
++import org.eclipse.swt.graphics.Color;
 +import org.eclipse.swt.graphics.GC;
++import org.eclipse.swt.graphics.Image;
++import org.eclipse.swt.graphics.Rectangle;
 +import org.eclipse.swt.layout.GridData;
 +import org.eclipse.swt.layout.GridLayout;
 +import org.eclipse.swt.widgets.*;
 +import org.eclipse.ui.IMemento;
-+import org.eclipse.ui.ISelectionListener;
-+import org.eclipse.ui.IViewSite;
-+import org.eclipse.ui.IWorkbenchPart;
-+import org.eclipse.ui.PartInitException;
-+import org.eclipse.ui.part.ViewPart;
++//import org.eclipse.ui.ISelectionListener;
++//import org.eclipse.ui.IViewSite;
++//import org.eclipse.ui.IWorkbenchPart;
++//import org.eclipse.ui.PartInitException;
++//import org.eclipse.ui.part.ViewPart;
++import org.eclipse.ui.forms.IManagedForm;
++import org.eclipse.ui.forms.widgets.FormToolkit;
++import org.eclipse.ui.forms.widgets.ScrolledForm;
++import org.openjdk.jmc.console.ui.editor.IConsolePageStateHandler;
++
 +import java.util.*;
++import java.util.concurrent.Executors;
++import java.util.concurrent.ScheduledExecutorService;
++
++import static java.util.concurrent.TimeUnit.MILLISECONDS;
 +
 +import org.openjdk.jmc.ext.shenandoahvisualizer.Colors.*;
-+import org.openjdk.jmc.rjmx.servermodel.IServer;
++import org.openjdk.jmc.rjmx.IConnectionHandle;
 +
 +import static org.openjdk.jmc.ext.shenandoahvisualizer.RegionState.*;
 +
-+public class ShenandoahVisualizer extends ViewPart implements ISelectionListener {
++public class ShenandoahVisualizer implements IConsolePageStateHandler {
 +	private static final int INITIAL_WIDTH = 1000;
 +	private static final int INITIAL_HEIGHT = 800;
 +	private static int pid;
++	private static final ScheduledExecutorService sched = Executors.newScheduledThreadPool(1);
 +	private static Render render;
-+	
-+	
++	private static Image image;
++	private static GC g;
++	private static Map<String, RegionStat> items = new LinkedHashMap<>();
++
++	@Inject
++	protected void createPageContent(IManagedForm managedForm, IConnectionHandle connection) throws Exception {
++		FormToolkit toolkit = managedForm.getToolkit();
++		Composite body = managedForm.getForm().getBody();
++		Rectangle size = managedForm.getForm().getClientArea();
++//		managedForm.getForm().addControlListener(new ControlAdapter() {
++//			public void controlResized(ControlEvent ev) {
++//				body.setBounds(managedForm.getForm().getClientArea());
++//			}
++//		});
++		toolkit.adapt(body, false, false);
++		pid = connection.getServerDescriptor().getJvmInfo().getPid();
++		String args = connection.getServerDescriptor().getJvmInfo().getJVMArguments();
++		if (args.contains("-XX:+UsePerfData") && args.contains("-XX:+UnlockExperimentalVMOptions")
++				&& args.contains("-XX:+ShenandoahRegionSampling")) {
++			createVisualizer(body, size, managedForm.getForm());
++		} else {
++			Text error = new Text(body, SWT.READ_ONLY | SWT.CENTER);
++			error.setText("Could not detect a JVM using Shenandoah");
++			error.setBounds(size);
++		}
++	}
++
++	public boolean saveState(IMemento memento) {
++		return false;
++	}
++
 +	public static class Render implements Runnable {
 +		public static final int LINE = 20;
 +
@@ -650,54 +746,65 @@ diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/src/ma
 +		int graphWidth, graphHeight;
 +
 +		final LinkedList<SnapshotView> lastSnapshots;
-+		volatile Snapshot snapshot;
++		volatile Snapshot snapshot, previousSnapshot;
 +
-+		public Render(Group outerGroup) {
-+			this.data = null;
++		public Render(Group outerGroup) throws Exception {
++			this.data = new DataProvider("local://" + pid);
 +			this.group = outerGroup;
-+
 +			this.regionHeight = INITIAL_HEIGHT;
 +			this.regionWidth = INITIAL_WIDTH;
-+			this.graphWidth =INITIAL_WIDTH;
++			this.graphWidth = INITIAL_WIDTH;
 +			this.graphHeight = INITIAL_HEIGHT;
 +			this.lastSnapshots = new LinkedList<>();
-+			this.snapshot = null;
++			this.snapshot = data.snapshot();
++			this.previousSnapshot = null;
 +		}
 +
 +		@Override
 +		public synchronized void run() {
-+			if (data != null) {
-+				Snapshot cur = data.snapshot();
-+				if (!cur.equals(snapshot)) {
-+					snapshot = cur;
-+					lastSnapshots.add(new SnapshotView(cur));
-+					if (lastSnapshots.size() > graphWidth) {
-+						lastSnapshots.removeFirst();
++			Display.getDefault().asyncExec(new Runnable() {
++				public void run() {
++					Snapshot cur = data.snapshot();
++					if (!cur.equals(snapshot)) {
++						previousSnapshot = snapshot;
++						snapshot = cur;
++						lastSnapshots.add(new SnapshotView(cur));
++						if (lastSnapshots.size() > graphWidth) {
++							lastSnapshots.removeFirst();
++						}
++						if (!group.isDisposed()) {
++							group.redraw();
++							group.update();
++						}
 +					}
-+					if (!group.isDisposed()) {
-+						group.redraw();
-+						Display.getCurrent().timerExec(100, this);
-+					}
++				
 +				}
-+			} else {
-+				Display.getCurrent().timerExec(100, this);
-+			}
++			});
 +		}
-+		
 +
 +		public synchronized void renderGraph(GC g) {
 +			if (lastSnapshots.size() < 2)
 +				return;
-+
-+			g.setBackground(g.getDevice().getSystemColor(SWT.COLOR_BLACK));
-+
++			
++			int pad = 10; 
++			int bandHeight = (graphHeight - pad) / 2;
++			double stepY = 1D * bandHeight / snapshot.total();
++			
++			int startDiff = graphHeight;
++			int startRaw = graphHeight - bandHeight - pad;
++			
++			g.setBackground(g.getDevice().getSystemColor(SWT.COLOR_WHITE));
 +			g.fillRectangle(0, 0, graphWidth, graphHeight);
 +
-+			double stepY = 1D * graphHeight / snapshot.total();
++			g.setBackground(g.getDevice().getSystemColor(SWT.COLOR_BLACK));
++			g.fillRectangle(0, 0, graphWidth, bandHeight);
++			g.fillRectangle(0, bandHeight+ pad, graphWidth, bandHeight);
++
 +			long firstTime = lastSnapshots.getFirst().time();
 +			long lastTime = lastSnapshots.getLast().time();
 +			double stepX = 1D * Math.min(lastSnapshots.size(), graphWidth) / (lastTime - firstTime);
-+			for (SnapshotView s : lastSnapshots) {
++			for (int i = 0; i < lastSnapshots.size(); i++) {
++				SnapshotView s = lastSnapshots.get(i);
 +				int x = (int) Math.round((s.time() - firstTime) * stepX);
 +
 +				switch (s.phase()) {
@@ -713,72 +820,46 @@ diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/src/ma
 +				case UPDATE_REFS:
 +					g.setForeground(Colors.TIMELINE_UPDATEREFS);
 +					break;
++				case TRAVERSAL:
++					g.setForeground(Colors.TIMELINE_TRAVERSAL);
++					break;
 +				default:
-+					g.setForeground(g.getDevice().getSystemColor(SWT.COLOR_BLACK));
++					//FIXME: check if this should be white
++					g.setForeground(g.getDevice().getSystemColor(SWT.COLOR_WHITE));
 +				}
-+				g.drawRectangle(x, 0, 1, graphHeight);
++				g.drawRectangle(x, 0, 1, bandHeight);
++				g.drawRectangle(x, bandHeight + pad, 1, bandHeight);
 +
-+				g.setForeground(Colors.LIVE_COMMITTED);
-+				g.drawRectangle(x, (int) Math.round(graphHeight - s.committed() * stepY), 1, 1);
++				
 +				g.setForeground(Colors.USED);
-+				g.drawRectangle(x, (int) Math.round(graphHeight - s.used() * stepY), 1, 1);
-+				g.setForeground(Colors.LIVE_HUMONGOUS);
-+				g.drawRectangle(x, (int) Math.round(graphHeight - s.humongous() * stepY), 1, 1);
++				g.drawRectangle(x, (int) Math.round(startRaw - s.used() * stepY), 1, 1);
 +				g.setForeground(Colors.LIVE_REGULAR);
-+				g.drawRectangle(x, (int) Math.round(graphHeight - s.live() * stepY), 1, 1);
++				g.drawRectangle(x, (int) Math.round(startRaw - s.live() * stepY), 1, 1);
 +				g.setForeground(Colors.LIVE_CSET);
-+				g.drawRectangle(x, (int) Math.round(graphHeight - s.collectionSet() * stepY), 1, 1);
-+				g.setForeground(Colors.LIVE_TRASH);
-+				g.drawRectangle(x, (int) Math.round(graphHeight - s.trash() * stepY), 1, 1);
++				g.drawRectangle(x, (int) Math.round(startRaw - s.collectionSet() * stepY), 1, 1);
++				
++				final int smooth = Math.min(10,  i +1);
++				final int mult = 50;
++				
++				SnapshotView ls = lastSnapshots.get(i - smooth +1);
++				g.setForeground(Colors.USED);
++				g.drawRectangle(x, (int) Math.round(startDiff - (s.used() - ls.used()) * stepY * mult / smooth), 1, 1);
++		
 +			}
 +		}
 +
 +		public synchronized static void renderLegend(GC g) {
 +			final int sqSize = LINE;
 +
-+			Map<String, RegionStat> items = new LinkedHashMap<>();
-+
-+			items.put("Empty Uncommitted", new RegionStat(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, EMPTY_UNCOMMITTED));
-+
-+			items.put("Empty Committed", new RegionStat(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, EMPTY_COMMITTED));
-+
-+			items.put("1/2 Used", new RegionStat(0.5f, 0.0f, 0.0f, 0.0f, 0.0f, REGULAR));
-+
-+			items.put("Fully Used", new RegionStat(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, REGULAR));
-+
-+			items.put("Fully Used, Trash", new RegionStat(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, TRASH));
-+
-+			items.put("Fully Live, 100% TLAB Allocs", new RegionStat(1.0f, 1.0f, 1.0f, 0.0f, 0.0f, REGULAR));
-+
-+			items.put("Fully Live, 100% GCLAB Allocs", new RegionStat(1.0f, 1.0f, 0.0f, 1.0f, 0.0f, REGULAR));
-+
-+			items.put("Fully Live, 100% Shared Allocs", new RegionStat(1.0f, 1.0f, 0.0f, 0.0f, 1.0f, REGULAR));
-+
-+			items.put("Fully Live, 50%/50% TLAB/GCLAB Allocs", new RegionStat(1.0f, 1.0f, 0.5f, 0.5f, 0.0f, REGULAR));
-+
-+			items.put("Fully Live, 33%/33%/33% T/GC/S Allocs",
-+					new RegionStat(1.0f, 1.0f, 1f / 3, 1f / 3, 1f / 3, REGULAR));
-+
-+			items.put("Fully Live Humongous", new RegionStat(1.0f, 1.0f, 0.0f, 0.0f, 0.0f, HUMONGOUS));
-+
-+			items.put("Fully Live Humongous + Pinned", new RegionStat(1.0f, 1.0f, 0.0f, 0.0f, 0.0f, PINNED_HUMONGOUS));
-+
-+			items.put("1/3 Live", new RegionStat(1.0f, 0.3f, 0.0f, 0.0f, 0.0f, REGULAR));
-+
-+			items.put("1/3 Live + Collection Set", new RegionStat(1.0f, 0.3f, 0.0f, 0.0f, 0.0f, CSET));
-+
-+			items.put("1/3 Live + Pinned", new RegionStat(1.0f, 0.3f, 0.0f, 0.0f, 0.0f, PINNED));
-+
-+			items.put("1/3 Live + Pinned CSet", new RegionStat(1.0f, 0.3f, 0.0f, 0.0f, 0.0f, PINNED_CSET));
-+
 +			int i = 1;
-+
 +
 +			for (String key : items.keySet()) {
 +				int y = (int) (i * sqSize * 1.5);
++				g.setAlpha(100);
 +				items.get(key).render(g, 0, y, sqSize, sqSize);
 +				g.setForeground(g.getDevice().getSystemColor(SWT.COLOR_BLACK));
-+				g.drawString(key, (int) (sqSize * 1.5), (int) (y+sqSize*0.1), true);
++				g.setAlpha(255);
++				g.drawString(key, (int) (sqSize * 1.5), (int) (y + sqSize * 0.1), true);
 +				i++;
 +			}
 +		}
@@ -790,27 +871,32 @@ diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/src/ma
 +			int cellSize = sqSize - 2;
 +
 +			for (int i = 0; i < snapshot.regionCount(); i++) {
-+				int rectx = (i % cols) * sqSize;
-+				int recty = (i / cols) * sqSize;
-+
++				
 +				RegionStat s = snapshot.get(i);
-+				s.render(g, rectx, recty, cellSize, cellSize);
++				RegionStat ls = previousSnapshot.get(i);
++				if (s != ls) {
++					int rectx = (i % cols) * sqSize;
++					int recty = (i / cols) * sqSize;
++					s.render(g, rectx, recty, cellSize, cellSize);
++				}
 +			}
-+
++			
++			Color BASE = new Color (g.getDevice(), 0, 0, 0);
++			
 +			for (int f = 0; f < snapshot.regionCount(); f++) {
 +				RegionStat s = snapshot.get(f);
 +				BitSet bs = s.incoming();
 +				if (bs != null) {
 +					for (int t = 0; t < snapshot.regionCount(); t++) {
 +						if (bs.get(t)) {
-+							int f_rectx = (int) ((f % cols + 0.5) * sqSize);
-+							int f_recty = (int) ((f / cols + 0.5) * sqSize);
-+							int t_rectx = (int) ((t % cols + 0.5) * sqSize);
-+							int t_recty = (int) ((t / cols + 0.5) * sqSize);
-+
-+							g.setBackground(Colors.GCLAB_ALLOC);
-+							g.setAlpha(20);
-+							g.drawLine(f_rectx, f_recty, t_rectx, t_recty);
++								int f_rectx = (int) ((f % cols + 0.5) * sqSize);
++								int f_recty = (int) ((f / cols + 0.5) * sqSize);
++								int t_rectx = (int) ((t % cols + 0.5) * sqSize);
++								int t_recty = (int) ((t / cols + 0.5) * sqSize);
++	
++								//g.setAlpha(20);
++								g.setBackground(BASE);
++								g.drawLine(f_rectx, f_recty, t_rectx, t_recty);
 +						}
 +					}
 +				}
@@ -832,190 +918,195 @@ diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/src/ma
 +			case UPDATE_REFS:
 +				status += " (updating refs)";
 +				break;
++			case TRAVERSAL:
++				status += " (traversal)";
++				break;
 +			}
 +			
++			final int K = 1024;
++			
 +			g.setForeground(g.getDevice().getSystemColor(SWT.COLOR_BLACK));
-+			g.drawText("Time: " + (snapshot.time() / 1024 / 1024) + " ms", 0, 0 * LINE, true);
 +			g.drawText("Status: " + status, 0, 1 * LINE);
-+			g.drawText("Total: " + (snapshot.total()) + " KB", 0, 2 * LINE, true);
-+			g.drawText("Used: " + (snapshot.used()) + " KB", 0, 3 * LINE, true);
-+			g.drawText("Live: " + (snapshot.live()) + " KB", 0, 4 * LINE, true);
-+		}
-+		
-+		public synchronized void renderErrorScreen(GC g) {
-+			g.setForeground(g.getDevice().getSystemColor(SWT.COLOR_BLACK));
-+			g.drawText("Please select a JVM running Shenandoah",0, 0, true);
++			g.drawText("Total: " + (snapshot.total() / K) + " MB", 0, 2 * LINE, true);
++			g.drawText("Used: " + (snapshot.used() / K) + " MB", 0, 3 * LINE, true);
++			g.drawText("Live: " + (snapshot.live() / K) + " MB", 0, 4 * LINE, true);
 +		}
 +
 +		public synchronized void notifyRegionResized(int width, int height) {
-+				this.regionWidth = width;
-+				this.regionHeight = height;
++			this.regionWidth = width;
++			this.regionHeight = height;
 +
 +		}
 +
 +		public synchronized void notifyGraphResized(int width, int height) {
-+				this.graphWidth = width;
-+				this.graphHeight = height;
-+	
++			this.graphWidth = width;
++			this.graphHeight = height;
++
 +		}
++
 +		public synchronized void updateDataProvider() throws Exception {
 +			this.data = new DataProvider("local://" + pid);
 +			this.snapshot = this.data.snapshot();
 +		}
-+		
-+		public synchronized void notRunningShenandoah() {
-+			this.data = null;	
-+			
-+		}
++
 +		public synchronized boolean isDataNull() {
-+			if(this.data == null) {
++			if (this.data == null) {
 +				return true;
 +			}
 +			return false;
 +		}
-+	}
-+
-+
-+	@Override
-+	public void init(IViewSite site, IMemento memento) throws PartInitException {
-+		super.init(site, memento);
-+		getSite().getPage().addSelectionListener(this);
 +
 +	}
-+	
++
 +	@Override
 +	public void dispose() {
-+		getSite().getPage().removeSelectionListener(this);
-+		super.dispose();
++		
 +	}
-+	
-+	@Override
-+	public void createPartControl(Composite parent) {
++
++	public void createVisualizer(Composite parent, Rectangle size, ScrolledForm form) throws Exception {
 +		Group outerGroup = new Group(parent, SWT.NONE);
-+        GridLayout grid = new GridLayout();
-+        grid.numColumns = 3;	
-+        grid.makeColumnsEqualWidth = true;
-+        GridData groupData = new GridData(SWT.FILL, SWT.FILL, true, true);
-+        outerGroup.setLayout(grid);
-+        outerGroup.setLayoutData(groupData);
-+        outerGroup.setBounds(parent.getClientArea());
-+    	Colors.device = Display.getCurrent();	
-+
-+    	render = new Render(outerGroup);
-+    	createPanels(outerGroup);
-+    	Display.getCurrent().timerExec (100, render);
-+	}
-+
-+
-+	@Override
-+	public void setFocus() {
-+		// TODO Auto-generated method stub
++		GridLayout grid = new GridLayout();
++		grid.numColumns = 3;
++		
++		grid.makeColumnsEqualWidth = true;
++		GridData groupData = new GridData(SWT.FILL, SWT.FILL, true, true);
++		outerGroup.setLayout(grid);
++		outerGroup.setLayoutData(groupData);
++		outerGroup.setBounds(size);
++		outerGroup.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
++		outerGroup.setBackgroundMode(SWT.INHERIT_FORCE);
++		image = new Image(Display.getDefault(), 1000, 1000);
++		g = new GC(image);
++		Colors.device = Display.getDefault();
++		
++		fillLegend();
++		
++		render = new Render(outerGroup);
++		createPanels(outerGroup, form);
++		sched.scheduleWithFixedDelay(render, 0, 10, MILLISECONDS);
 +		
 +	}
-+	
-+	public void createPanels(Composite parent) {
-+		
 +
-+		Canvas graphPanel = new Canvas(parent, SWT.NONE);
++
++	public void fillLegend() {
++
++		items.put("Empty Uncommitted", new RegionStat(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, EMPTY_UNCOMMITTED));
++
++		items.put("Empty Committed", new RegionStat(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, EMPTY_COMMITTED));
++
++		items.put("Trash", new RegionStat(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, TRASH));
++
++		items.put("Fully Live, 100% TLAB Allocs", new RegionStat(1.0f, 1.0f, 1.0f, 0.0f, 0.0f, REGULAR));
++		
++		items.put("0% Live, 100% TLAB Allocs", new RegionStat(1.0f, 0.0f, 1.0f, 0.0f, 0.0f, REGULAR));
++
++		items.put("Fully Live, 100% GCLAB Allocs", new RegionStat(1.0f, 1.0f, 0.0f, 1.0f, 0.0f, REGULAR));
++		
++		items.put("0% Live, 100% GCLAB Allocs", new RegionStat(1.0f, 0.0f, 0.0f, 1.0f, 0.0f, REGULAR));
++
++		items.put("Fully Live, 100% Shared Allocs", new RegionStat(1.0f, 1.0f, 0.0f, 0.0f, 1.0f, REGULAR));
++		
++		items.put("0% Live, 100% Shared Allocs", new RegionStat(1.0f, 0.0f, 0.0f, 0.0f, 1.0f, REGULAR));
++
++		items.put("Fully Live, 50%/50% TLAB/GCLAB Allocs", new RegionStat(1.0f, 1.0f, 0.5f, 0.5f, 0.0f, REGULAR));
++
++		items.put("Fully Live, 33%/33%/33% T/GC/S Allocs", new RegionStat(1.0f, 1.0f, 1f / 3, 1f / 3, 1f / 3, REGULAR));
++
++		items.put("Fully Live Humongous", new RegionStat(1.0f, 1.0f, 0.0f, 0.0f, 0.0f, HUMONGOUS));
++
++		items.put("Fully Live Humongous + Pinned", new RegionStat(1.0f, 1.0f, 0.0f, 0.0f, 0.0f, PINNED_HUMONGOUS));
++
++		items.put("1/3 Live + Collection Set", new RegionStat(1.0f, 1f / 3, 0.0f, 0.0f, 0.0f, CSET));
++
++		items.put("1/3 Live + Pinned", new RegionStat(1.0f, 0.3f, 1f / 3, 0.0f, 0.0f, PINNED));
++
++		items.put("1/3 Live + Pinned CSet", new RegionStat(1.0f, 1f / 3, 0.0f, 0.0f, 0.0f, PINNED_CSET));
++	}
++
++	public void createPanels(Composite parent, ScrolledForm form) {
++
++		Canvas graphPanel = new Canvas(parent, SWT.NO_BACKGROUND);
 +		GridData graphData = new GridData(GridData.FILL, GridData.BEGINNING, true, false);
 +		graphData.horizontalSpan = 2;
 +		graphData.heightHint = 200;
 +		graphPanel.setLayoutData(graphData);
 +		graphPanel.addPaintListener(new PaintListener() {
 +			public void paintControl(PaintEvent e) {
-+				if (!render.isDataNull()) {
-+					render.renderGraph(e.gc);
-+				}
-+				else {
-+					render.renderErrorScreen(e.gc);
-+				}
++				render.renderGraph(e.gc);
 +			}
 +		});
 +
-+		Canvas statusPanel = new Canvas(parent, SWT.NONE);
++		Canvas statusPanel = new Canvas(parent, SWT.NO_BACKGROUND);
 +		GridData statusData = new GridData(GridData.FILL, GridData.FILL, false, false);
 +
 +		statusPanel.setLayoutData(statusData);
 +		statusPanel.addPaintListener(new PaintListener() {
 +			public void paintControl(PaintEvent e) {
-+				if (!render.isDataNull()) {
-+					render.renderStats(e.gc);
-+				}
++				render.renderStats(e.gc);
 +			}
 +		});
-+		Canvas regionsPanel = new Canvas(parent, SWT.NONE);
++		Canvas regionsPanel = new Canvas(parent, SWT.NO_BACKGROUND);
 +		GridData regionsData = new GridData(GridData.FILL, GridData.FILL, true, true);
 +		regionsData.horizontalSpan = 2;
 +		regionsData.verticalSpan = 2;
 +		regionsPanel.setLayoutData(regionsData);
 +		regionsPanel.addPaintListener(new PaintListener() {
 +			public void paintControl(PaintEvent e) {
-+				if (!render.isDataNull()) {
-+					render.renderRegions(e.gc);
-+				}
++				render.renderRegions(g);
++				e.gc.drawImage(image, 0, 0, image.getBounds().width, image.getBounds().height,
++						0, 0, regionsPanel.getBounds().width, regionsPanel.getBounds().height);
++			}
++		});
++		regionsPanel.addDisposeListener(new DisposeListener() {
++			public void widgetDisposed(DisposeEvent e) {
++			g.dispose();
++			image.dispose();
 +			}
 +		});
 +
-+		Canvas legendPanel = new Canvas(parent, SWT.NONE);
++		Canvas legendPanel = new Canvas(parent, SWT.NO_BACKGROUND);
 +		GridData legendData = new GridData(GridData.FILL, GridData.FILL, true, true);
 +		legendData.verticalSpan = 2;
 +		legendPanel.setLayoutData(legendData);
 +		legendPanel.addPaintListener(new PaintListener() {
 +			public void paintControl(PaintEvent e) {
-+				if (!render.isDataNull()) {
-+					render.renderLegend(e.gc);
-+				}
++				render.renderLegend(e.gc);
 +			}
 +		});
-+        
-+        graphPanel.addListener (SWT.Resize,  new Listener () {
-+            public void handleEvent (Event ev) {
-+                render.notifyGraphResized(graphPanel.getBounds().width, graphPanel.getBounds().height);
 +
-+            }
-+          });
-+        
-+        regionsPanel.addListener (SWT.Resize,  new Listener () {
-+            public void handleEvent (Event ev) {
-+            	render.notifyRegionResized(regionsPanel.getBounds().width, regionsPanel.getBounds().height);
-+            }
-+          });
-+	}
-+	public void updateVisualizer() throws Exception {
-+		render.updateDataProvider();
-+	}
-+	public void notSupported() {
-+		render.notRunningShenandoah();
-+	}
++		/*
++		 * An SWT.Resize event isn't called by resizing the form so we manually resize the
++		 * outerGroup parent here to trigger a Resize event for all it's children
++		 */
 +
-+	@Override
-+	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-+		if (selection instanceof TreeSelection) {
-+			TreePath[] paths = ((TreeSelection) selection).getPaths();
-+			if (paths.length != 0) {
-+				Object seg = paths[0].getFirstSegment();
-+				if (seg instanceof IServer) {
-+					pid = ((IServer) seg).getServerHandle().getServerDescriptor().getJvmInfo().getPid();
-+					String args = ((IServer) seg).getServerHandle().getServerDescriptor().getJvmInfo()
-+							.getJVMArguments();
-+					if (args.contains("-XX:+UsePerfData") && args.contains("-XX:+UnlockExperimentalVMOptions")
-+							&& args.contains("-XX:+ShenandoahRegionSampling")) {
-+						try {
-+							updateVisualizer();
-+						} catch (Exception e) {
-+						}
-+					} else {
-+						render.notRunningShenandoah();
-+					}
-+				}
++		form.addControlListener(new ControlAdapter() {
++			public void controlResized(ControlEvent ev) {
++				parent.setBounds(form.getClientArea());
 +			}
-+		}
++		});
++
++		graphPanel.addControlListener(new ControlAdapter() {
++			public void controlResized(ControlEvent ev) {
++				render.notifyGraphResized(graphPanel.getBounds().width, graphPanel.getBounds().height);
++			}
++		});
++
++		regionsPanel.addControlListener(new ControlAdapter() {
++			public void controlResized(ControlEvent ev) {
++				render.notifyRegionResized(regionsPanel.getBounds().width, regionsPanel.getBounds().height);
++				g.dispose();
++				image.dispose();
++				image = new Image(Display.getDefault(), regionsPanel.getBounds().width, regionsPanel.getBounds().height);
++				g = new GC(image);
++				
++			}
++		});
 +	}
 +}
-diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/src/main/java/org/openjdk/jmc/ext/shenandoahvisualizer/Snapshot.java
+diff -r 49f6575169ce application/org.openjdk.jmc.ext.shenandoahvisualizer/src/main/java/org/openjdk/jmc/ext/shenandoahvisualizer/Snapshot.java
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/application/org.openjdk.jmc.ext.shenandoahvisualizer/src/main/java/org/openjdk/jmc/ext/shenandoahvisualizer/Snapshot.java	Wed Aug 01 15:01:51 2018 -0400
-@@ -0,0 +1,127 @@
++++ b/application/org.openjdk.jmc.ext.shenandoahvisualizer/src/main/java/org/openjdk/jmc/ext/shenandoahvisualizer/Snapshot.java	Tue Aug 28 16:08:35 2018 -0400
+@@ -0,0 +1,130 @@
 +package org.openjdk.jmc.ext.shenandoahvisualizer;
 +
 +import java.util.List;
@@ -1045,6 +1136,9 @@ diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/src/ma
 +            case 0x4:
 +                this.phase = Phase.UPDATE_REFS;
 +                break;
++            case 0x8:
++            	this.phase = Phase.TRAVERSAL;
++            	break;
 +            default:
 +                this.phase = Phase.UNKNOWN;
 +                break;
@@ -1119,7 +1213,7 @@ diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/src/ma
 +        long used = 0L;
 +        for (RegionStat rs : stats) {
 +            if (rs.state() == RegionState.CSET || rs.state() == RegionState.PINNED_CSET) {
-+                used += regionSize * rs.used();
++                used += regionSize * rs.live();
 +            }
 +        }
 +        return used;
@@ -1143,9 +1237,9 @@ diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/src/ma
 +        return live;
 +    }
 +}
-diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/src/main/java/org/openjdk/jmc/ext/shenandoahvisualizer/SnapshotView.java
+diff -r 49f6575169ce application/org.openjdk.jmc.ext.shenandoahvisualizer/src/main/java/org/openjdk/jmc/ext/shenandoahvisualizer/SnapshotView.java
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/application/org.openjdk.jmc.ext.shenandoahvisualizer/src/main/java/org/openjdk/jmc/ext/shenandoahvisualizer/SnapshotView.java	Wed Aug 01 15:01:51 2018 -0400
++++ b/application/org.openjdk.jmc.ext.shenandoahvisualizer/src/main/java/org/openjdk/jmc/ext/shenandoahvisualizer/SnapshotView.java	Tue Aug 28 16:08:35 2018 -0400
 @@ -0,0 +1,63 @@
 +package org.openjdk.jmc.ext.shenandoahvisualizer;
 +
@@ -1210,9 +1304,9 @@ diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/src/ma
 +    }
 +
 +}
-diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/src/test/java/org/openjdk/jmc/ext/shenandoahvisualizer/RenderLegendTest.java
+diff -r 49f6575169ce application/org.openjdk.jmc.ext.shenandoahvisualizer/src/test/java/org/openjdk/jmc/ext/shenandoahvisualizer/RenderLegendTest.java
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/application/org.openjdk.jmc.ext.shenandoahvisualizer/src/test/java/org/openjdk/jmc/ext/shenandoahvisualizer/RenderLegendTest.java	Wed Aug 01 15:01:51 2018 -0400
++++ b/application/org.openjdk.jmc.ext.shenandoahvisualizer/src/test/java/org/openjdk/jmc/ext/shenandoahvisualizer/RenderLegendTest.java	Tue Aug 28 16:08:35 2018 -0400
 @@ -0,0 +1,22 @@
 +//package org.openjdk.jmc.ext.shenandoahvisualizer;
 +//
@@ -1236,181 +1330,3 @@ diff -r 0da02fdc014d application/org.openjdk.jmc.ext.shenandoahvisualizer/src/te
 +////        ImageIO.write(img, "png", new File("legend.png"));
 +//    }
 +//}
-diff -r 0da02fdc014d application/org.openjdk.jmc.feature.ext.shenandoahvisualizer/.project
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/application/org.openjdk.jmc.feature.ext.shenandoahvisualizer/.project	Wed Aug 01 15:01:51 2018 -0400
-@@ -0,0 +1,17 @@
-+<?xml version="1.0" encoding="UTF-8"?>
-+<projectDescription>
-+	<name>org.openjdk.jmc.feature.ext.shenandoahvisualizer</name>
-+	<comment></comment>
-+	<projects>
-+	</projects>
-+	<buildSpec>
-+		<buildCommand>
-+			<name>org.eclipse.pde.FeatureBuilder</name>
-+			<arguments>
-+			</arguments>
-+		</buildCommand>
-+	</buildSpec>
-+	<natures>
-+		<nature>org.eclipse.pde.FeatureNature</nature>
-+	</natures>
-+</projectDescription>
-diff -r 0da02fdc014d application/org.openjdk.jmc.feature.ext.shenandoahvisualizer/build.properties
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/application/org.openjdk.jmc.feature.ext.shenandoahvisualizer/build.properties	Wed Aug 01 15:01:51 2018 -0400
-@@ -0,0 +1,4 @@
-+bin.includes = feature.xml,\
-+               feature.properties
-+pde.match.rule.feature=compatible
-+pde.match.rule.bundle=compatible
-\ No newline at end of file
-diff -r 0da02fdc014d application/org.openjdk.jmc.feature.ext.shenandoahvisualizer/feature.properties
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/application/org.openjdk.jmc.feature.ext.shenandoahvisualizer/feature.properties	Wed Aug 01 15:01:51 2018 -0400
-@@ -0,0 +1,4 @@
-+name=Shenandoah Visualizer
-+provider=Red Hat Ltd
-+copyright=Copyright \GPL
-+description=Visual display of Shenandoah Garbage Collection being done for a JVM.
-diff -r 0da02fdc014d application/org.openjdk.jmc.feature.ext.shenandoahvisualizer/feature.xml
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/application/org.openjdk.jmc.feature.ext.shenandoahvisualizer/feature.xml	Wed Aug 01 15:01:51 2018 -0400
-@@ -0,0 +1,21 @@
-+<?xml version="1.0" encoding="UTF-8"?>
-+<feature
-+      id="org.openjdk.jmc.feature.ext.shenandoahvisualizer"
-+      label="%name"
-+      version="7.0.0.qualifier">
-+
-+   <description>
-+      %description
-+   </description>
-+
-+   <requires>
-+      <import feature="org.openjdk.jmc.feature.core" match="equivalent"/>
-+   </requires>
-+
-+   <plugin
-+         id="org.openjdk.jmc.ext.shenandoahvisualizer"
-+         download-size="0"
-+         install-size="0"
-+         version="0.0.0"/>
-+
-+</feature>
-diff -r 0da02fdc014d application/org.openjdk.jmc.feature.ext.shenandoahvisualizer/pom.xml
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/application/org.openjdk.jmc.feature.ext.shenandoahvisualizer/pom.xml	Wed Aug 01 15:01:51 2018 -0400
-@@ -0,0 +1,43 @@
-+<?xml version="1.0" encoding="UTF-8"?>
-+<!--   
-+   Copyright (c) 2018, Oracle and/or its affiliates. All rights reserved.
-+   
-+   DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
-+   
-+   The contents of this file are subject to the terms of either the Universal Permissive License 
-+   v 1.0 as shown at http://oss.oracle.com/licenses/upl
-+   
-+   or the following license:
-+   
-+   Redistribution and use in source and binary forms, with or without modification, are permitted
-+   provided that the following conditions are met:
-+   
-+   1. Redistributions of source code must retain the above copyright notice, this list of conditions
-+   and the following disclaimer.
-+   
-+   2. Redistributions in binary form must reproduce the above copyright notice, this list of
-+   conditions and the following disclaimer in the documentation and/or other materials provided with
-+   the distribution.
-+   
-+   3. Neither the name of the copyright holder nor the names of its contributors may be used to
-+   endorse or promote products derived from this software without specific prior written permission.
-+   
-+   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
-+   IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
-+   FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
-+   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-+   DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-+   DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-+   WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
-+   WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-+-->
-+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-+	<modelVersion>4.0.0</modelVersion>
-+	<parent>
-+		<groupId>org.openjdk.jmc</groupId>
-+		<artifactId>missioncontrol.application</artifactId>
-+		<version>7.0.0-SNAPSHOT</version>
-+	</parent>
-+	<artifactId>org.openjdk.jmc.feature.ext.shenandoahvisualizer</artifactId>
-+	<packaging>eclipse-feature</packaging>
-+</project>
-diff -r 0da02fdc014d application/org.openjdk.jmc.feature.rcp/feature.xml
---- a/application/org.openjdk.jmc.feature.rcp/feature.xml	Fri Jul 06 19:16:50 2018 +0530
-+++ b/application/org.openjdk.jmc.feature.rcp/feature.xml	Wed Aug 01 15:01:51 2018 -0400
-@@ -67,6 +67,10 @@
-          id="org.openjdk.jmc.feature.flightrecorder"
-          version="0.0.0"/>
- 
-+   <includes
-+         id="org.openjdk.jmc.feature.ext.shenandoahvisualizer"
-+         version="0.0.0"/>
-+
-    <requires>
-       <import feature="org.eclipse.rcp" version="3.8.0" match="greaterOrEqual"/>
-       <import feature="org.eclipse.help" version="1.4.0" match="greaterOrEqual"/>
-@@ -176,4 +180,4 @@
-          version="0.0.0"
-          unpack="false"/>
- 
--</feature>
-\ No newline at end of file
-+</feature>
-diff -r 0da02fdc014d application/org.openjdk.jmc.rcp.product/jmc.product
---- a/application/org.openjdk.jmc.rcp.product/jmc.product	Fri Jul 06 19:16:50 2018 +0530
-+++ b/application/org.openjdk.jmc.rcp.product/jmc.product	Wed Aug 01 15:01:51 2018 -0400
-@@ -54,7 +54,7 @@
-       </programArgsMac>
-       <programArgsWin>-vm ./
-       </programArgsWin>
--      <vmArgs>-XX:+IgnoreUnrecognizedVMOptions -XX:+UseG1GC -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:StartFlightRecording=name=JMC_Default,maxsize=100m -Djava.net.preferIPv4Stack=true -Djdk.attach.allowAttachSelf=true --add-exports=java.xml/com.sun.org.apache.xerces.internal.parsers=ALL-UNNAMED --add-exports=jdk.internal.jvmstat/sun.jvmstat.monitor=ALL-UNNAMED --add-exports=java.management/sun.management=ALL-UNNAMED --add-exports=java.management/sun.management.counter.perf=ALL-UNNAMED --add-exports=jdk.management.agent/jdk.internal.agent=ALL-UNNAMED --add-exports=jdk.attach/sun.tools.attach=ALL-UNNAMED --add-exports=java.desktop/sun.awt.windows=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=jdk.attach/sun.tools.attach=ALL-UNNAMED
-+      <vmArgs>-XX:+IgnoreUnrecognizedVMOptions -XX:+UseG1GC -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:StartFlightRecording=name=JMC_Default,maxsize=100m -Djava.net.preferIPv4Stack=true -Djdk.attach.allowAttachSelf=true --add-exports=java.xml/com.sun.org.apache.xerces.internal.parsers=ALL-UNNAMED --add-exports=jdk.internal.jvmstat/sun.jvmstat.monitor=ALL-UNNAMED --add-exports=java.management/sun.management=ALL-UNNAMED --add-exports=java.management/sun.management.counter.perf=ALL-UNNAMED --add-exports=jdk.management.agent/jdk.internal.agent=ALL-UNNAMED --add-exports=jdk.attach/sun.tools.attach=ALL-UNNAMED --add-exports=java.desktop/sun.awt.windows=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=jdk.attach/sun.tools.attach=ALL-UNNAMED -Xbootclasspath/a:/usr/lib/jvm/java/lib/tools.jar
-       </vmArgs>
-       <vmArgsLin>--add-exports=java.desktop/sun.awt.X11=ALL-UNNAMED
-       </vmArgsLin>
-@@ -111,7 +111,6 @@
-       <property name="osgi.signedcontent.support" value="true" />
-       <property name="osgi.splashPath" value="platform:/base/plugins/org.openjdk.jmc.rcp.application" />
-    </configurations>
--
-    <preferencesInfo>
-       <targetfile overwrite="false"/>
-    </preferencesInfo>
-diff -r 0da02fdc014d application/pom.xml
---- a/application/pom.xml	Fri Jul 06 19:16:50 2018 +0530
-+++ b/application/pom.xml	Wed Aug 01 15:01:51 2018 -0400
-@@ -60,6 +60,7 @@
- 		<module>org.openjdk.jmc.feature.console</module>
- 		<module>org.openjdk.jmc.feature.console.ui.subscriptions</module>
- 		<module>org.openjdk.jmc.feature.core</module>
-+		<module>org.openjdk.jmc.feature.ext.shenandoahvisualizer</module>
- 		<module>org.openjdk.jmc.feature.flightrecorder</module>
- 		<module>org.openjdk.jmc.feature.flightrecorder.ext.g1</module>
- 		<module>org.openjdk.jmc.feature.flightrecorder.ext.jfx</module>
-@@ -76,6 +77,7 @@
- 		<module>org.openjdk.jmc.flightrecorder.configuration</module>
- 		<module>org.openjdk.jmc.flightrecorder.controlpanel.ui</module>
- 		<module>org.openjdk.jmc.flightrecorder.controlpanel.ui.configuration</module>
-+		<module>org.openjdk.jmc.ext.shenandoahvisualizer</module>
- 		<module>org.openjdk.jmc.flightrecorder.ext.g1</module>
- 		<module>org.openjdk.jmc.flightrecorder.ext.jfx</module>
- 		<module>org.openjdk.jmc.flightrecorder.metadata</module>
-@@ -106,6 +108,7 @@
- 		<module>org.openjdk.jmc.updatesite.rcp</module>
- 		<module>l10n</module>
- 		<module>tests</module>
-+		
- 	</modules>
- 	<profiles>
- 		<profile>
