@@ -2,6 +2,7 @@ package org.openjdk.jmc.ext.shenandoahvisualizer;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Color;
 
 import java.util.BitSet;
 import java.util.EnumSet;
@@ -90,70 +91,103 @@ public class RegionStat {
         }
     }
 
-    public void render(GC g, int x, int y, int width, int height) {
-        g.setBackground(DEFAULT);
-        g.fillRectangle(x, y, width, height);
+	public void render(GC g, int x, int y, int width, int height) {
+		g.setBackground(g.getDevice().getSystemColor(SWT.COLOR_WHITE));
+		g.fillRectangle(x, y, width, height);
 
-        int usedWidth = (int) (width * usedLvl);
-        g.setBackground(USED);
-        g.fillRectangle(x, y, usedWidth, height);
+		switch (state) {
+			case REGULAR: {
+				if (gclabLvl > 0 || tlabLvl > 0 || sharedLvl > 0) {
+			
+					int sharedWidth = (int) (width * sharedLvl);
+					int tlabWidth = (int) (width * tlabLvl);
+					int gclabWidth = (int) (width * gclabLvl);
 
-        if (state == RegionState.REGULAR) {
-            if (gclabLvl > 0 || tlabLvl > 0 || sharedLvl > 0) {
-                int sharedWidth = (int) (width * liveLvl * sharedLvl);
-                int tlabWidth = (int) (width * liveLvl * tlabLvl);
-                int gclabWidth = (int) (width * liveLvl * gclabLvl);
+					int h = height;
+					int ly = y + (height - h);
+					int lx = x;
+					int alpha = liveLvl < 0.5f ? 100 : 255;
+					g.setAlpha(alpha);
+					
+					if (tlabWidth > 0) {
+						g.setBackground(TLAB_ALLOC);
+						g.fillRectangle(lx, ly, tlabWidth, h);
+						g.setForeground(TLAB_ALLOC_BORDER);
+						g.drawRectangle(lx, ly, tlabWidth, h);
+						lx += tlabWidth;
+					}
+					
+					
+					if (gclabWidth > 0) {
+						g.setBackground(GCLAB_ALLOC);
+						g.fillRectangle(lx, ly, gclabWidth, h);
+						g.setForeground(GCLAB_ALLOC_BORDER);
+						g.drawRectangle(lx, ly, gclabWidth, h);
+						lx += gclabWidth;
+					}
+					
+					if (sharedWidth > 0) {
+						
+						g.setBackground(SHARED_ALLOC);
+						g.fillRectangle(lx, ly, sharedWidth, h);
+						g.setForeground(SHARED_ALLOC_BORDER);
+						g.drawRectangle(lx, ly, sharedWidth, h);
+					}
+					g.setAlpha(255);
+				}
+				break;
+			}
+			case PINNED: {
+				g.setAlpha(255);
+				int usedWidth = (int) (width * usedLvl);
+				g.setBackground(LIVE_PINNED);
+				g.fillRectangle(x, y, usedWidth, height);
+				break;
+			}
+			case CSET:
+			case PINNED_CSET:
+			case HUMONGOUS:
+			case PINNED_HUMONGOUS: {
+				g.setAlpha(255);
+				int usedWidth = (int) (width * usedLvl);
+				g.setBackground(USED);
+				g.fillRectangle(x, y, usedWidth, height);
 
-                int h = height;
-                int ly = y + (height - h);
-                int lx = x;
+				int liveWidth = (int) (width * liveLvl);
+				g.setBackground(selectLive(state));
+				g.fillRectangle(x, y, liveWidth, height);
 
-                g.setBackground(TLAB_ALLOC);
-                g.fillRectangle(lx, ly, tlabWidth, h);
-                g.setForeground(TLAB_ALLOC_BORDER);
-                g.drawRectangle(lx, ly, tlabWidth, h);
+				g.setForeground(LIVE_BORDER);
+				g.drawLine(x + liveWidth, y, x + liveWidth, y + height);
+				break;
+			}
+			case EMPTY_COMMITTED:
+			case EMPTY_UNCOMMITTED:
+			case TRASH:
+				break;
+			default:
+				throw new IllegalStateException("Unhandled region state: " + state);
+		}
 
-                lx += tlabWidth;
-                g.setBackground(GCLAB_ALLOC);
-                g.fillRectangle(lx, ly, gclabWidth, h);
-                g.setForeground(GCLAB_ALLOC_BORDER);
-                g.drawRectangle(lx, ly, gclabWidth, h);
+		if (state == RegionState.TRASH) {
+			g.setForeground(g.getDevice().getSystemColor(SWT.COLOR_BLACK));
+			g.drawLine(x, y, x + width, y + height);
+			g.drawLine(x, y + height, x + width, y);
+		}
 
-                lx += gclabWidth;
-                g.setBackground(SHARED_ALLOC);
-                g.fillRectangle(lx, ly, sharedWidth, h);
-                g.setForeground(SHARED_ALLOC_BORDER);
-                g.drawRectangle(lx, ly, sharedWidth, h);
-            }
-        } else {
-            int liveWidth = (int) (width * liveLvl);
-            g.setBackground(selectLive(state));
-            g.fillRectangle(x, y, liveWidth, height);
+		if (state == RegionState.EMPTY_UNCOMMITTED) {
+			g.setBackground(LIVE_COMMITTED);
+			g.fillRectangle(x,y,width,height);
+			//for (int t = 0; t < 3; t++) {
+//				int off = width * 1 / 3;
+//				g.drawLine(x, y + off, x + off, y);
+//				g.drawLine(x + off, y + height, x + width, y + off);
+			//}
+		}
 
-            g.setForeground	(LIVE_BORDER);
-            g.drawLine(x + liveWidth, y, x + liveWidth, y + height);
-        }
-
-
-        if (state == RegionState.TRASH) {
-        	g.setForeground(g.getDevice().getSystemColor(SWT.COLOR_BLACK));
-            g.drawLine(x, y, x + width, y + height);
-            g.drawLine(x, y + height, x + width, y);
-        }
-
-        if (state == RegionState.EMPTY_UNCOMMITTED) {
-            g.setForeground(BORDER);
-            for (int t = 0; t < 3; t++) {
-                int off = width * t / 3;
-                g.drawLine(x, y + off, x + off, y);
-                g.drawLine(x + off, y + height, x + width, y + off);
-            }
-
-        }
-
-        g.setForeground(Colors.BORDER);
-        g.drawRectangle(x, y, width, height);
-    }
+		g.setForeground(Colors.BORDER);
+		g.drawRectangle(x, y, width, height);
+	}
 
     @Override
     public boolean equals(Object o) {

@@ -9,6 +9,8 @@ public enum Phase {
     EVACUATING,
 
     UPDATE_REFS,
+    
+    TRAVERSAL,
 
     UNKNOWN,
 
