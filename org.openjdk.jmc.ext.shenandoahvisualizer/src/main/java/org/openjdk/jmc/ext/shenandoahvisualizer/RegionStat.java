@@ -161,28 +161,22 @@ public class RegionStat {
 				g.drawLine(x + liveWidth, y, x + liveWidth, y + height);
 				break;
 			}
-			case EMPTY_COMMITTED:
-			case EMPTY_UNCOMMITTED:
-			case TRASH:
+			case EMPTY_COMMITTED: {
 				break;
+			}
+			case EMPTY_UNCOMMITTED: {
+				g.setBackground(LIVE_COMMITTED);
+				g.fillRectangle(x,y,width,height);
+				break;
+			}
+			case TRASH:{
+				g.setForeground(g.getDevice().getSystemColor(SWT.COLOR_BLACK));
+				g.drawLine(x, y, x + width, y + height);
+				g.drawLine(x, y + height, x + width, y);
+				break;
+			}	
 			default:
 				throw new IllegalStateException("Unhandled region state: " + state);
-		}
-
-		if (state == RegionState.TRASH) {
-			g.setForeground(g.getDevice().getSystemColor(SWT.COLOR_BLACK));
-			g.drawLine(x, y, x + width, y + height);
-			g.drawLine(x, y + height, x + width, y);
-		}
-
-		if (state == RegionState.EMPTY_UNCOMMITTED) {
-			g.setBackground(LIVE_COMMITTED);
-			g.fillRectangle(x,y,width,height);
-			//for (int t = 0; t < 3; t++) {
-//				int off = width * 1 / 3;
-//				g.drawLine(x, y + off, x + off, y);
-//				g.drawLine(x + off, y + height, x + width, y + off);
-			//}
 		}
 
 		g.setForeground(Colors.BORDER);
@@ -200,6 +194,7 @@ public class RegionStat {
         if (Float.compare(that.usedLvl, usedLvl) != 0) return false;
         if (Float.compare(that.tlabLvl, tlabLvl) != 0) return false;
         if (Float.compare(that.gclabLvl, gclabLvl) != 0) return false;
+        if (Float.compare(that.sharedLvl, sharedLvl) != 0) return false;
         if (!state.equals(that.state)) return false;
         return incoming != null ? incoming.equals(that.incoming) : that.incoming == null;
     }

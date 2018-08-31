@@ -71,6 +71,7 @@ public class ShenandoahVisualizer implements IConsolePageStateHandler {
 	private static Render render;
 	private static Image image;
 	private static GC g;
+	private static boolean dirty;
 	private static Map<String, RegionStat> items = new LinkedHashMap<>();
 
 	@Inject
@@ -78,11 +79,7 @@ public class ShenandoahVisualizer implements IConsolePageStateHandler {
 		FormToolkit toolkit = managedForm.getToolkit();
 		Composite body = managedForm.getForm().getBody();
 		Rectangle size = managedForm.getForm().getClientArea();
-//		managedForm.getForm().addControlListener(new ControlAdapter() {
-//			public void controlResized(ControlEvent ev) {
-//				body.setBounds(managedForm.getForm().getClientArea());
-//			}
-//		});
+
 		toolkit.adapt(body, false, false);
 		pid = connection.getServerDescriptor().getJvmInfo().getPid();
 		String args = connection.getServerDescriptor().getJvmInfo().getJVMArguments();
@@ -131,7 +128,8 @@ public class ShenandoahVisualizer implements IConsolePageStateHandler {
 					if (!cur.equals(snapshot)) {
 						previousSnapshot = snapshot;
 						snapshot = cur;
-						lastSnapshots.add(new SnapshotView(cur));
+							lastSnapshots.add(new SnapshotView(cur));
+							
 						if (lastSnapshots.size() > graphWidth) {
 							lastSnapshots.removeFirst();
 						}
@@ -146,9 +144,9 @@ public class ShenandoahVisualizer implements IConsolePageStateHandler {
 		}
 
 		public synchronized void renderGraph(GC g) {
-			if (lastSnapshots.size() < 2)
+			if (lastSnapshots.size() < 2) {
 				return;
-			
+			}
 			int pad = 10; 
 			int bandHeight = (graphHeight - pad) / 2;
 			double stepY = 1D * bandHeight / snapshot.total();
@@ -187,7 +185,6 @@ public class ShenandoahVisualizer implements IConsolePageStateHandler {
 					g.setForeground(Colors.TIMELINE_TRAVERSAL);
 					break;
 				default:
-					//FIXME: check if this should be white
 					g.setForeground(g.getDevice().getSystemColor(SWT.COLOR_WHITE));
 				}
 				g.drawRectangle(x, 0, 1, bandHeight);
@@ -206,12 +203,11 @@ public class ShenandoahVisualizer implements IConsolePageStateHandler {
 					g.drawRectangle(x, (int) Math.round(startRaw - s.collectionSet() * stepY), 1, 1);
 				}
 				final int smooth = Math.min(10,  i +1);
-				final int mult = 50;
+				final int mult = 20;
 				
 				SnapshotView ls = lastSnapshots.get(i - smooth +1);
 				g.setForeground(Colors.USED);
 				g.drawRectangle(x, (int) Math.round(startDiff - (s.used() - ls.used()) * stepY * mult / smooth), 1, 1);
-		
 			}
 		}
 
@@ -241,16 +237,13 @@ public class ShenandoahVisualizer implements IConsolePageStateHandler {
 				
 				RegionStat s = snapshot.get(i);
 				RegionStat ls = previousSnapshot.get(i);
-				if (s != ls){
+				if (!s.equals(ls) || dirty){
 					int rectx = (i % cols) * sqSize;
 					int recty = (i / cols) * sqSize;
 					s.render(g, rectx, recty, cellSize, cellSize);
 				}
-				else {
-					System.out.println("Region " + i + "is the same");
-				}
 			}
-			
+			dirty = false;
 			Color BASE = new Color (g.getDevice(), 0, 0, 0);
 			
 			for (int f = 0; f < snapshot.regionCount(); f++) {
@@ -346,7 +339,10 @@ public class ShenandoahVisualizer implements IConsolePageStateHandler {
 		outerGroup.setBounds(size);
 		outerGroup.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
 		outerGroup.setBackgroundMode(SWT.INHERIT_FORCE);
+		//Needs a default size, will automatically be resized correctly in the Resize listener
 		image = new Image(Display.getDefault(), 1000, 1000);
+		
+		
 		g = new GC(image);
 		Colors.device = Display.getDefault();
 		
@@ -354,7 +350,7 @@ public class ShenandoahVisualizer implements IConsolePageStateHandler {
 		
 		render = new Render(outerGroup);
 		createPanels(outerGroup, form);
-		sched.scheduleWithFixedDelay(render, 0, 10, MILLISECONDS);
+		sched.scheduleWithFixedDelay(render, 0, 100, MILLISECONDS);
 		
 	}
 
@@ -428,6 +424,7 @@ public class ShenandoahVisualizer implements IConsolePageStateHandler {
 						0, 0, regionsPanel.getBounds().width, regionsPanel.getBounds().height);
 			}
 		});
+		
 		regionsPanel.addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 			g.dispose();
@@ -465,6 +462,7 @@ public class ShenandoahVisualizer implements IConsolePageStateHandler {
 		regionsPanel.addControlListener(new ControlAdapter() {
 			public void controlResized(ControlEvent ev) {
 				render.notifyRegionResized(regionsPanel.getBounds().width, regionsPanel.getBounds().height);
+				dirty = true;
 				g.dispose();
 				image.dispose();
 				image = new Image(Display.getDefault(), regionsPanel.getBounds().width, regionsPanel.getBounds().height);
